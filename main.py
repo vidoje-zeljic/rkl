@@ -14,9 +14,9 @@ for csv_file in os.listdir(csv_dir):
     reports.extend(util.read_reports_from_csv(f"resources/csv/{os.fsdecode(csv_file)}"))
 
 
-# print(json.dumps(r, indent=4))
+# print(json.dumps(reports, indent=4))
 reports = util.prepare_for_insert(reports)
-
+# print(reports)
 con = sqlite3.connect("resources/db/tutorial.db")
 cur = con.cursor()
 
