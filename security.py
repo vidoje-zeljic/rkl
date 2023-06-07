@@ -1,12 +1,12 @@
 from werkzeug.security import generate_password_hash
 
 users = {
-    "foo": {
-        "password": generate_password_hash("pass"),
+    "rkl": {
+        "password": generate_password_hash("rkl"),
         "roles": ["admin"]
     },
-    "bar": {
-        "password": generate_password_hash("pass"),
-        "roles": ["read"]
-    },
+    # "admin": {
+    #     "password": generate_password_hash("admin"),
+    #     "roles": ["read"]
+    # },
 }

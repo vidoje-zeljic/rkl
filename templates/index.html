@@ -1,24 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <link rel="stylesheet" href="{{url_for('static', filename='index.css')}}">
-</head>
-<body onload="createTable({{jsonData}}, 'broj')">
+{% extends 'base.html' %}
 
-<div style="text-align: center;">
-    <form action="/home" name="date-filter" onsubmit="return validateForm()">
-        <label for="date">Date:</label>
-        <input type="date" id="date" name="date">
-        <input type="submit">
-    </form>
+{% block title %}
+RKL
+{% endblock %}
 
-    <input id="search" type="text" value="">
-    <button onclick="filter({{jsonData}})">
-        Filter
-    </button>
-    <div style="padding-top: 10px" id="container"/>
-</div>
-
-<script src="{{url_for('static', filename='index.js')}}"></script>
-</body>
-</html>
+{% block content %}
+<h1>User: {{user}}</h1>
+{% endblock %}

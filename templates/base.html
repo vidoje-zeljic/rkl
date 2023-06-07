@@ -1,0 +1,20 @@
+<html>
+<head>
+    <title>{% block title %} {% endblock %}</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='index.css')}}">
+</head>
+<body {% block body_onload %} {% endblock %}>
+
+<div style="text-align: center;">
+    <a class="button" href="/">Home</a>
+    <a class="button" href="reports">Reports</a>
+    <a class="button" href="upload">Upload</a>
+    <a class="button" href="files">Files</a>
+    {% block content %}
+    {% endblock %}
+</div>
+
+{% block script %}
+{% endblock %}
+</body>
+</html>

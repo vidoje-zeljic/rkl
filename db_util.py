@@ -3,8 +3,8 @@ def format_date(date):
     return tmp[2] + "-" + tmp[1] + "-" + tmp[0]
 
 
-def read_reports_from_csv(file):
-    reports_file = open(file, "r").read().split("\n")
+def read_reports_from_csv(file_name):
+    reports_file = open(file_name, "r").read().split("\n")
 
     reports = []
     for line in reports_file:
@@ -54,3 +54,27 @@ def prepare_for_insert(reports):
     for r in reports:
         reports_tuples.append(tuple(r.values()))
     return reports_tuples
+
+
+def reports_file_to_tuple(file_location):
+    reports_file = open(file_location, "r").read().split("\n")
+    reports = []
+    for line in reports_file:
+        if not line.startswith(";") and not line.startswith("﻿;"):
+            report_columns = line.split(";")
+            report = (
+                int(report_columns[1]),
+                format_date(report_columns[2]),
+                report_columns[3],
+                report_columns[4],
+                report_columns[5],
+                report_columns[6],
+                report_columns[7],
+                report_columns[8],
+                report_columns[9],
+                float(report_columns[10]) * 1000,
+                float(report_columns[11]) * 1000,
+                float(report_columns[12]) * 1000,
+            )
+            reports.append(report)
+    return reports

@@ -1,39 +1,14 @@
-import pyfiglet
 import os
-import util
-import security
-import json
-import sqlite3
-from flask import Flask
-from flask import render_template
+
+from flask import Flask, render_template, request, send_file
 from flask_httpauth import HTTPBasicAuth
 from werkzeug.security import check_password_hash
-from flask import request
-from flask import send_file
 
+import db
+import security
 
 app = Flask(__name__)
 auth = HTTPBasicAuth()
-
-
-@app.route('/upload')
-def main():
-    return render_template("upload.html")
-
-
-@app.route('/success', methods=['POST'])
-def success():
-    if request.method == 'POST':
-        f = request.files['file']
-        # print(f.read().decode("utf-8"))
-        f.save("uploads/" + f.filename)
-        return render_template("upload-success.html", name=f.filename)
-
-
-@app.route('/download')
-def download_file ():
-    path = "uploads/1.txt"
-    return send_file(path, as_attachment=True)
 
 
 @auth.verify_password
@@ -42,54 +17,50 @@ def verify_password(username, password):
         return username
 
 
+@app.route("/delete")
+@auth.login_required
+def delete():
+    db.delete_all()
+    return "Success"
+
+
 @app.route("/")
+@auth.login_required
 def index():
-    return render_template('index.html', jsonData=reports)
+    print(auth)
+    return render_template('index.html', user=auth.current_user())
 
 
-@app.route("/home")
-# @auth.login_required
-def home():
-    # if 'admin' in users[auth.current_user()]['roles']:
-    #     print("ok")
-    # else:
-    #     print("error")
-    date = request.args.get('date')
-    time = request.args.get('time')
-    if time is not None:
-        print(time)
-    else:
-        print("Time is None")
-    return f"Hello, {date}"
-    # return "Hello, {}!".format(auth.current_user())
-    # return render_template('home.html', jsonData=reports)
+@app.route("/reports")
+@auth.login_required
+def reports():
+    return render_template('reports.html', reports=db.get_resources())
 
 
-print(pyfiglet.figlet_format("RKL"))
+@app.route('/upload', methods=['GET', 'POST'])
+@auth.login_required
+def upload():
+    if request.method == 'GET':
+        return render_template("upload.html")
+    if request.method == 'POST':
+        f = request.files['file']
+        file_location = "./uploads/" + f.filename
+        f.save(file_location)
+        db.save_resources(file_location)
+        return render_template("upload-success.html", name=f.filename)
 
 
-reports = []
+@app.route('/files')
+@auth.login_required
+def files():
+    uploads = os.fsencode("./uploads")
+    files = []
+    for file in os.listdir(uploads):
+        files.append(os.fsdecode(file))
+    return render_template("files.html", files=files)
 
-# csv_dir = os.fsencode("resources/csv")
-#
-# for csv_file in os.listdir(csv_dir):
-#     reports.extend(util.read_reports_from_csv(f"resources/csv/{os.fsdecode(csv_file)}"))
 
-
-# print(json.dumps(reports, indent=4))
-# reports = util.prepare_for_insert(reports)
-# print(reports)
-con = sqlite3.connect("resources/db/tutorial.db")
-cur = con.cursor()
-
-res = cur.execute("select * from izvestaj;")
-
-# print(res.fetchall())
-reports = util.db_json_mapper(res)
-# print(json.dumps(reports, indent=4))
-#
-# cur.executemany("""
-#     INSERT INTO izvestaj ('broj', 'datum', 'posiljalac', 'porucilac', 'primalac', 'artikal', 'prevoznik', 'registracija', 'vozac', 'bruto', 'tara', 'neto')
-#     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""", reports)
-#
-# con.commit()
+@app.route('/files/<file_name>')
+@auth.login_required
+def file_download(file_name):
+    return send_file("./uploads/" + file_name, as_attachment=True)

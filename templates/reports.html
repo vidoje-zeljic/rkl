@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Reports
+{% endblock %}
+
+{% block body_onload %}
+onload="createTable({{reports}}, 'broj')"
+{% endblock %}
+
+{% block content %}
+<h1>Reports</h1>
+<!--    <form action="/home">-->
+<!--        <label for="date">Date:</label>-->
+<!--        <input type="date" id="date" name="date" required>-->
+<!--        <input type="submit">-->
+<!--    </form>-->
+
+<input id="search" type="text" value="">
+<button onclick="filter({{reports}})">
+    Filter
+</button>
+<div style="padding-top: 10px" id="container"/>
+{% endblock %}
+
+{% block script %}
+<script src="{{url_for('static', filename='index.js')}}"></script>
+{% endblock %}
