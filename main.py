@@ -1,28 +1,19 @@
 import pyfiglet
 import os
 import util
+import security
 import json
 import sqlite3
 from flask import Flask
 from flask import render_template
 from flask_httpauth import HTTPBasicAuth
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import check_password_hash
 from flask import request
 from flask import send_file
 
+
 app = Flask(__name__)
 auth = HTTPBasicAuth()
-
-users = {
-    "foo": {
-        "password": generate_password_hash("pass"),
-        "roles": ["admin"]
-    },
-    "bar": {
-        "password": generate_password_hash("pass"),
-        "roles": ["read"]
-    },
-}
 
 
 @app.route('/upload')
@@ -47,7 +38,7 @@ def download_file ():
 
 @auth.verify_password
 def verify_password(username, password):
-    if username in users and check_password_hash(users.get(username)["password"], password):
+    if username in security.users and check_password_hash(security.users.get(username)["password"], password):
         return username
 
 
