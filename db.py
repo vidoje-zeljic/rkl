@@ -1,6 +1,7 @@
 import sqlite3
 
 import db_util
+import excel_reader
 
 con = sqlite3.connect("./rkl.db", check_same_thread=False)
 cur = con.cursor()
@@ -12,7 +13,7 @@ def get_resources():
 
 
 def save_resources(file_location):
-    reports = db_util.reports_file_to_tuple(file_location)
+    reports = excel_reader.read_from_excel(file_location)
     cur.executemany("""
     INSERT INTO izvestaj(
         'broj', 

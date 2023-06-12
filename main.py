@@ -60,7 +60,13 @@ def files():
     return render_template("files.html", files=files)
 
 
-@app.route('/files/<file_name>')
+@app.route('/files/<file_name>', methods=['GET', 'DELETE'])
 @auth.login_required
 def file_download(file_name):
-    return send_file("./uploads/" + file_name, as_attachment=True)
+    if request.method == 'GET':
+        return send_file("./uploads/" + file_name, as_attachment=True)
+
+    if request.method == 'DELETE':
+        print("DELETE")
+        os.remove("uploads/" + file_name)
+        return file_name

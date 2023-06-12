@@ -1,5 +1,5 @@
 def format_date(date):
-    tmp = date.split(".")
+    tmp = date.split("-")
     return tmp[2] + "-" + tmp[1] + "-" + tmp[0]
 
 
@@ -8,8 +8,8 @@ def read_reports_from_csv(file_name):
 
     reports = []
     for line in reports_file:
-        if not line.startswith(";") and not line.startswith("﻿;"):
-            report_columns = line.split(";")
+        if not line.startswith(",") and not line.startswith("﻿,"):
+            report_columns = line.split(",")
             report = {
                 "broj": int(report_columns[1]),
                 "datum": format_date(report_columns[2]),
@@ -60,8 +60,8 @@ def reports_file_to_tuple(file_location):
     reports_file = open(file_location, "r").read().split("\n")
     reports = []
     for line in reports_file:
-        if not line.startswith(";") and not line.startswith("﻿;"):
-            report_columns = line.split(";")
+        if not line.startswith(",") and not line.startswith("﻿,"):
+            report_columns = line.split(",")
             report = (
                 int(report_columns[1]),
                 format_date(report_columns[2]),

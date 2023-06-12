@@ -10,7 +10,12 @@ Files
     {% for file in files: %}
     <li>
         <a href="files/{{file}}">{{file}}</a>
+        <button onclick="deleteFile('{{file}}')">DELETE</button>
     </li>
     {% endfor %}
 </ul>
+{% endblock %}
+
+{% block script %}
+<script src="{{url_for('static', filename='index.js')}}"></script>
 {% endblock %}

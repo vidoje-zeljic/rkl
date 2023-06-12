@@ -82,3 +82,13 @@ function validateForm() {
     return false;
   }
 }
+
+
+function deleteFile(file_name) {
+    fetch('files/' + file_name, {
+        method: 'DELETE',
+    })
+        .then(res => res.text())
+        .then(res => console.log(res))
+    location.reload()
+}
