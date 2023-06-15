@@ -6,6 +6,13 @@ import excel_reader
 con = sqlite3.connect("./rkl.db", check_same_thread=False)
 cur = con.cursor()
 
+## query = """
+# select *
+# from izvestaj
+# where (? is null or ? = broj) and (? is null or ? = datum)
+# """
+# res = cur.execute(query, [None, None, '2023-05-22 20:12:09', '2023-05-22 20:12:09'])
+# print(res.fetchall())
 
 def get_resources():
     res = cur.execute("select * from izvestaj;")
