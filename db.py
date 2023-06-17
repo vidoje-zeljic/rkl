@@ -72,8 +72,3 @@ def save_resources(file_location, file_id):
     )
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""", reports)
     con.commit()
-
-
-def delete_all():
-    cur.execute("delete from izvestaj;")
-    con.commit()

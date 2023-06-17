@@ -17,13 +17,6 @@ def verify_password(username, password):
         return username
 
 
-@app.route("/delete")
-@auth.login_required
-def delete():
-    db.delete_all()
-    return "Success"
-
-
 @app.route("/")
 @auth.login_required
 def index():
@@ -63,7 +56,7 @@ def file(file_name):
     if request.method == 'DELETE':
         os.remove("uploads/" + file_name)
         db.delete_file(file_name)
-        return render_template("files.html", files=db.get_files())
+        return "OK"
 
 
 def get_files():
