@@ -45,6 +45,8 @@ def files():
 
     if request.method == 'POST':
         f = request.files['file']
+        if db.get_file_by_name(f.filename):
+            db.delete_file(f.filename)
         file_location = "./uploads/" + f.filename
         f.save(file_location)
         file_id = db.save_file(f.filename)

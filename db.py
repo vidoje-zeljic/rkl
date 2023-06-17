@@ -26,6 +26,10 @@ def get_files():
     return cur.execute("select * from file;").fetchall()
 
 
+def get_file_by_name(file_name):
+    return cur.execute("select * from file where name = ?", [file_name]).fetchall()
+
+
 def save_file(file_name):
     result = cur.execute("""
     INSERT INTO file(name, upload_dt)

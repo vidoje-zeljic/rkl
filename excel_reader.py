@@ -16,9 +16,9 @@ def read_from_excel(file_location, file_id):
                 sh.cell(row=row, column=9).value,
                 sh.cell(row=row, column=10).value,
                 sh.cell(row=row, column=11).value,
-                float(sh.cell(row=row, column=12).value) * 1000,
-                float(sh.cell(row=row, column=13).value) * 1000,
-                float(sh.cell(row=row, column=14).value) * 1000,
+                float(sh.cell(row=row, column=12).value),
+                float(sh.cell(row=row, column=13).value),
+                float(sh.cell(row=row, column=14).value),
                 file_id
             )
             reports.append(report)
