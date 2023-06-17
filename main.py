@@ -37,36 +37,36 @@ def reports():
     return render_template('reports.html', reports=db.get_resources())
 
 
-@app.route('/upload', methods=['GET', 'POST'])
+@app.route('/files', methods=['GET', 'POST'])
 @auth.login_required
-def upload():
+def files():
     if request.method == 'GET':
-        return render_template("upload.html")
+        return render_template("files.html", files=db.get_files())
+
     if request.method == 'POST':
         f = request.files['file']
         file_location = "./uploads/" + f.filename
         f.save(file_location)
-        db.save_resources(file_location)
-        return render_template("upload-success.html", name=f.filename)
-
-
-@app.route('/files')
-@auth.login_required
-def files():
-    uploads = os.fsencode("./uploads")
-    files = []
-    for file in os.listdir(uploads):
-        files.append(os.fsdecode(file))
-    return render_template("files.html", files=files)
+        file_id = db.save_file(f.filename)
+        db.save_resources(file_location, file_id)
+        return render_template("files.html", files=db.get_files(), uploaded_file=f.filename)
 
 
 @app.route('/files/<file_name>', methods=['GET', 'DELETE'])
 @auth.login_required
-def file_download(file_name):
+def file(file_name):
     if request.method == 'GET':
         return send_file("./uploads/" + file_name, as_attachment=True)
 
     if request.method == 'DELETE':
-        print("DELETE")
         os.remove("uploads/" + file_name)
-        return file_name
+        db.delete_file(file_name)
+        return render_template("files.html", files=db.get_files())
+
+
+def get_files():
+    uploads = os.fsencode("./uploads")
+    files = []
+    for file in os.listdir(uploads):
+        files.append(os.fsdecode(file))
+    return files

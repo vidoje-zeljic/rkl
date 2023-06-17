@@ -5,15 +5,37 @@ Files
 {% endblock %}
 
 {% block content %}
+<h1>Upload</h1>
+<div style="text-align: center;">
+    <form action="/files" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" required/>
+        <input type="submit" value="Upload">
+    </form>
+</div>
+{% if uploaded_file != null %}
+<h1>File uploaded successfully</h1>
+<p>File Name: {{uploaded_file}}</p>
+{% endif %}
+
 <h1>Files</h1>
-<ul>
+<table style="margin-left: auto; margin-right: auto;">
     {% for file in files: %}
-    <li>
-        <a href="files/{{file}}">{{file}}</a>
-        <button onclick="deleteFile('{{file}}')">DELETE</button>
-    </li>
+    <tr>
+        <td>
+            {{file[2]}}
+        </td>
+        <td>
+            {{file[1]}}
+        </td>
+        <td>
+            <button onclick="location.href='files/{{file[1]}}'">DOWNLOAD</button>
+        </td>
+        <td>
+            <button onclick="deleteFile('{{file[1]}}')">DELETE</button>
+        </td>
+    </tr>
     {% endfor %}
-</ul>
+</table>
 {% endblock %}
 
 {% block script %}

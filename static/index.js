@@ -17,10 +17,8 @@ function createTable(jsonData, sortBy) {
 
     jsonData.sort(function (a, b) {
         if (!isNaN(Number(a[sortBy]))) {
-            console.log("int...")
             return orderBy > 0 ? parseInt(a[sortBy]) - parseInt(b[sortBy]) : parseInt(b[sortBy]) - parseInt(a[sortBy])
         } else {
-            console.log("string...")
             return orderBy > 0 ? ('' + a[sortBy]).localeCompare(b[sortBy]) : ('' + b[sortBy]).localeCompare(a[sortBy]);
         }
     });

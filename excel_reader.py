@@ -1,7 +1,7 @@
 import openpyxl
 
 
-def read_from_excel(file_location):
+def read_from_excel(file_location, file_id):
     sh = openpyxl.load_workbook(file_location).active
     reports = []
     for row in range(1, sh.max_row+1):
@@ -19,6 +19,7 @@ def read_from_excel(file_location):
                 float(sh.cell(row=row, column=12).value) * 1000,
                 float(sh.cell(row=row, column=13).value) * 1000,
                 float(sh.cell(row=row, column=14).value) * 1000,
+                file_id
             )
             reports.append(report)
     return reports
