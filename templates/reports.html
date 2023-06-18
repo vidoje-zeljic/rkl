@@ -36,11 +36,7 @@ onload="createTable({{reports}}, 'broj')"
             <select id="posiljalac">
                 <option value style="color: gray;">--- Svi posiljaoci ---</option>
                 {% for e in posiljaoci: %}
-                {% if posiljalac == e[0] %}
-                <option value="{{e[0]}}" selected>{{e[0]}}</option>
-                {% else %}
-                <option value="{{e[0]}}">{{e[0]}}</option>
-                {% endif %}
+                <option value="{{e[0]}}"{% if posiljalac == e[0] %} selected {% endif %}>{{e[0]}}</option>
                 {% endfor %}
             </select>
         </td>
@@ -48,11 +44,7 @@ onload="createTable({{reports}}, 'broj')"
             <select id="porucilac">
                 <option value style="color: gray;">--- Svi porucioci ---</option>
                 {% for e in porucioci: %}
-                {% if porucilac == e[0] %}
-                <option value="{{e[0]}}" selected>{{e[0]}}</option>
-                {% else %}
-                <option value="{{e[0]}}">{{e[0]}}</option>
-                {% endif %}
+                <option value="{{e[0]}}" {% if porucilac == e[0] %} selected {% endif %}>{{e[0]}}</option>
                 {% endfor %}
             </select>
         </td>
@@ -60,11 +52,7 @@ onload="createTable({{reports}}, 'broj')"
             <select id="primalac">
                 <option value style="color: gray;">--- Svi primaoci ---</option>
                 {% for e in primaoci: %}
-                {% if primalac == e[0] %}
-                <option value="{{e[0]}}" selected>{{e[0]}}</option>
-                {% else %}
-                <option value="{{e[0]}}">{{e[0]}}</option>
-                {% endif %}
+                <option value="{{e[0]}}" {% if primalac == e[0] %} selected {% endif %}>{{e[0]}}</option>
                 {% endfor %}
             </select>
         </td>
@@ -74,11 +62,7 @@ onload="createTable({{reports}}, 'broj')"
             <select id="artikal">
                 <option value style="color: gray;">--- Svi artikli ---</option>
                 {% for e in artikli: %}
-                {% if artikal == e[0] %}
-                <option value="{{e[0]}}" selected>{{e[0]}}</option>
-                {% else %}
-                <option value="{{e[0]}}">{{e[0]}}</option>
-                {% endif %}
+                <option value="{{e[0]}}" {% if artikal == e[0] %} selected {% endif %}>{{e[0]}}</option>
                 {% endfor %}
             </select>
         </td>
@@ -86,11 +70,7 @@ onload="createTable({{reports}}, 'broj')"
             <select id="prevoznik">
                 <option value style="color: gray;">--- Svi prevoznici ---</option>
                 {% for e in prevoznici: %}
-                {% if prevoznik == e[0] %}
-                <option value="{{e[0]}}" selected>{{e[0]}}</option>
-                {% else %}
-                <option value="{{e[0]}}">{{e[0]}}</option>
-                {% endif %}
+                <option value="{{e[0]}}" {% if prevoznik == e[0] %} selected {% endif %}>{{e[0]}}</option>
                 {% endfor %}
             </select>
         </td>
@@ -98,11 +78,7 @@ onload="createTable({{reports}}, 'broj')"
             <select id="registracija">
                 <option value style="color: gray;">--- Sve registracije ---</option>
                 {% for e in registracije: %}
-                {% if registracija == e[0] %}
-                <option value="{{e[0]}}" selected>{{e[0]}}</option>
-                {% else %}
-                <option value="{{e[0]}}">{{e[0]}}</option>
-                {% endif %}
+                <option value="{{e[0]}}" {% if registracija == e[0] %} selected {% endif %}>{{e[0]}}</option>
                 {% endfor %}
             </select>
         </td>
@@ -110,11 +86,11 @@ onload="createTable({{reports}}, 'broj')"
     <tr>
         <td>
             <label for="datum-od">Datum od</label>
-            <input type="date" id="datum-od">
+            <input type="date" id="datum-od" value="{{datumOd}}">
         </td>
         <td>
             <label for="datum-do">Datum do</label>
-            <input type="date" id="datum-do">
+            <input type="date" id="datum-do" value="{{datumDo}}">
         </td>
         <td>
             <button onclick="filter()">
