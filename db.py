@@ -27,7 +27,7 @@ def get_all_resources():
 def get_resources(broj, neto_od, neto_do, posiljalac, porucilac, primalac, artikal, prevoznik, registracija, datum_od,
                   datum_do):
     query = """
-    SELECT *
+    SELECT {select}
     FROM izvestaj
     WHERE
         (? is null or ? = broj) AND
@@ -42,10 +42,23 @@ def get_resources(broj, neto_od, neto_do, posiljalac, porucilac, primalac, artik
         (? is null or ? >= neto) AND
         (? is null or ? <= neto)
     """
-    res = cur.execute(query, [broj, broj, datum_do, datum_do, datum_od, datum_od, posiljalac, posiljalac, porucilac,
-                              porucilac, primalac, primalac, artikal, artikal, prevoznik, prevoznik, registracija,
-                              registracija, neto_do, neto_do, neto_od, neto_od])
-    return db_util.db_json_mapper(res)
+
+    cnt = cur.execute(query.format(select="count(1)"),
+                      [broj, broj, datum_do, datum_do, datum_od, datum_od, posiljalac, posiljalac, porucilac,
+                       porucilac, primalac, primalac, artikal, artikal, prevoznik, prevoznik, registracija,
+                       registracija, neto_do, neto_do, neto_od, neto_od]
+                      ).fetchall()[0][0]
+    neto_sum = cur.execute(query.format(select="sum(neto)"),
+                      [broj, broj, datum_do, datum_do, datum_od, datum_od, posiljalac, posiljalac, porucilac,
+                       porucilac, primalac, primalac, artikal, artikal, prevoznik, prevoznik, registracija,
+                       registracija, neto_do, neto_do, neto_od, neto_od]
+                      ).fetchall()[0][0]
+    neto_sum = 0 if neto_sum is None else neto_sum
+    res = cur.execute(query.format(select="*"),
+                      [broj, broj, datum_do, datum_do, datum_od, datum_od, posiljalac, posiljalac, porucilac,
+                       porucilac, primalac, primalac, artikal, artikal, prevoznik, prevoznik, registracija,
+                       registracija, neto_do, neto_do, neto_od, neto_od])
+    return db_util.db_json_mapper(res), cnt, neto_sum
 
 
 def get_files():

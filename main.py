@@ -5,6 +5,7 @@ from flask_httpauth import HTTPBasicAuth
 from werkzeug.security import check_password_hash
 
 import db
+import db_util
 import security
 
 app = Flask(__name__)
@@ -38,8 +39,11 @@ def reports():
     registracija = None if 'registracija' not in request.args else request.args['registracija']
     datum_od = None if 'datum-od' not in request.args else request.args['datum-od']
     datum_do = None if 'datum-do' not in request.args else request.args['datum-do']
+    db_resoults = db.get_resources(broj, neto_od, neto_do, posiljalac, porucilac, primalac, artikal, prevoznik, registracija, datum_od, datum_do)
     return render_template('reports.html',
-                           reports=db.get_resources(broj, neto_od, neto_do, posiljalac, porucilac, primalac, artikal, prevoznik, registracija, datum_od, datum_do),
+                           count=db_resoults[1],
+                           neto_sum=db_util.format_number(db_resoults[2]),
+                           reports=db_resoults[0],
                            posiljaoci=db.posiljaoci(),
                            porucioci=db.porucioci(),
                            primaoci=db.primaoci(),

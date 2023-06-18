@@ -16,9 +16,13 @@ def db_json_mapper(tuple_reports):
             "prevoznik": json_report[7],
             "registracija": json_report[8],
             "vozac": json_report[9],
-            "bruto": json_report[10],
-            "tara": json_report[11],
-            "neto": json_report[12],
+            "bruto": format_number(json_report[10]),
+            "tara": format_number(json_report[11]),
+            "neto": format_number(json_report[12]),
         }
         json_reports.append(report)
     return json_reports
+
+
+def format_number(number):
+    return f'{int(number):,}'
