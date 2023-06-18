@@ -26,8 +26,8 @@ function createTable(jsonData, sortBy) {
     let container = document.getElementById("container");
     container.innerHTML = ''
     let table = document.createElement("table");
-    table.style.marginLeft="auto"
-    table.style.marginRight="auto"
+    table.style.marginLeft = "auto"
+    table.style.marginRight = "auto"
     let cols = Object.keys(jsonData[0]);
 
     let tr = document.createElement("tr");
@@ -55,30 +55,95 @@ function createTable(jsonData, sortBy) {
     container.appendChild(table);
 }
 
-function filter(jsonData) {
-    let filteredData = []
-    let search = document.getElementById("search").value
-    jsonData.forEach(element => {
-        let values = Object.values(element);
-        let found = false
-        values.forEach((value) => {
-            if (value.toString().includes(search)) {
-                found = true
-            }
-        });
-        if (found) {
-            filteredData.push(element)
-        }
-    })
-    createTable(filteredData)
+function isEmpty(value) {
+    return value == null || value == ""
+}
+
+function filter() {
+    queryParams = {}
+
+    broj = document.getElementById("broj").value
+    if (!isEmpty(broj)) {
+        queryParams.broj = broj
+    }
+
+    netoOd = document.getElementById("neto-od").value
+    if (!isEmpty(netoOd)) {
+        queryParams['neto-od'] = netoOd
+    }
+
+    netoDo = document.getElementById("neto-do").value
+    if (!isEmpty(netoDo)) {
+        queryParams['neto-do'] = netoDo
+    }
+
+    posiljalac = document.getElementById("posiljalac").value
+    console.log("Posiljalac: ")
+    console.log(posiljalac)
+    if (!isEmpty(posiljalac)) {
+        queryParams.posiljalac = posiljalac
+    }
+
+    porucilac = document.getElementById("porucilac").value
+    if (!isEmpty(porucilac)) {
+        queryParams.porucilac = porucilac
+    }
+
+    primalac = document.getElementById("primalac").value
+    if (!isEmpty(primalac)) {
+        queryParams.primalac = primalac
+    }
+
+    artikal = document.getElementById("artikal").value
+    if (!isEmpty(artikal)) {
+        queryParams.artikal = artikal
+    }
+
+    prevoznik = document.getElementById("prevoznik").value
+    if (!isEmpty(prevoznik)) {
+        queryParams.prevoznik = prevoznik
+    }
+
+    registracija = document.getElementById("registracija").value
+    if (!isEmpty(registracija)) {
+        queryParams.registracija = registracija
+    }
+
+    datumOd = document.getElementById("datum-od").value
+    if (!isEmpty(datumOd)) {
+        queryParams['datum-od'] = datumOd
+    }
+
+    datumDo = document.getElementById("datum-do").value
+    if (!isEmpty(datumDo)) {
+        queryParams['datum-do'] = datumDo
+    }
+
+    reloadWithQueryStringVars("/reports", queryParams);
+
+    // let filteredData = []
+    // let search = document.getElementById("search").value
+    // jsonData.forEach(element => {
+    //     let values = Object.values(element);
+    //     let found = false
+    //     values.forEach((value) => {
+    //         if (value.toString().includes(search)) {
+    //             found = true
+    //         }
+    //     });
+    //     if (found) {
+    //         filteredData.push(element)
+    //     }
+    // })
+    // createTable(filteredData)
 }
 
 function validateForm() {
-  var date = document.forms["date-filter"]["date"].value;
-  if (date == "") {
-    alert("Name must be filled out");
-    return false;
-  }
+    var date = document.forms["date-filter"]["date"].value;
+    if (date == "") {
+        alert("Name must be filled out");
+        return false;
+    }
 }
 
 
@@ -88,4 +153,23 @@ function deleteFile(file_name) {
     }).then(() => {
         window.location.href = "/files"
     })
+}
+
+function reloadWithQueryStringVars(currentUrl, queryStringVars) {
+    newQueryVars = {},
+        newUrl = currentUrl + "?";
+    if (queryStringVars) {
+        for (var queryStringVar in queryStringVars) {
+            newQueryVars[queryStringVar] = queryStringVars[queryStringVar];
+        }
+    }
+    if (newQueryVars) {
+        for (var newQueryVar in newQueryVars) {
+            newUrl += newQueryVar + "=" + newQueryVars[newQueryVar] + "&";
+        }
+        newUrl = newUrl.substring(0, newUrl.length - 1);
+        window.location.href = newUrl;
+    } else {
+        window.location.href = location.href;
+    }
 }

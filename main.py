@@ -27,7 +27,37 @@ def index():
 @app.route("/reports")
 @auth.login_required
 def reports():
-    return render_template('reports.html', reports=db.get_resources())
+    print(request.args)
+
+    broj = None if 'broj' not in request.args else request.args['broj']
+    neto_od = None if 'neto-od' not in request.args else request.args['neto-od']
+    neto_do = None if 'neto-do' not in request.args else request.args['neto-do']
+    posiljalac = None if 'posiljalac' not in request.args else request.args['posiljalac']
+    porucilac = None if 'porucilac' not in request.args else request.args['porucilac']
+    primalac = None if 'primalac' not in request.args else request.args['primalac']
+    artikal = None if 'artikal' not in request.args else request.args['artikal']
+    prevoznik = None if 'prevoznik' not in request.args else request.args['prevoznik']
+    registracija = None if 'registracija' not in request.args else request.args['registracija']
+    print(registracija)
+    print(db.registracije())
+    return render_template('reports.html',
+                           reports=db.get_resources(),
+                           posiljaoci=db.posiljaoci(),
+                           porucioci=db.porucioci(),
+                           primaoci=db.primaoci(),
+                           artikli=db.artikli(),
+                           prevoznici=db.prevoznici(),
+                           registracije=db.registracije(),
+                           broj=broj,
+                           neto_od=neto_od,
+                           neto_do=neto_do,
+                           posiljalac=posiljalac,
+                           porucilac=porucilac,
+                           primalac=primalac,
+                           artikal=artikal,
+                           prevoznik=prevoznik,
+                           registracija=registracija,
+                           )
 
 
 @app.route('/files', methods=['GET', 'POST'])

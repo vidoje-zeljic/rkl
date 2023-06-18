@@ -16,10 +16,118 @@ onload="createTable({{reports}}, 'broj')"
 <!--        <input type="submit">-->
 <!--    </form>-->
 
-<input id="search" type="text" value="">
-<button onclick="filter({{reports}})">
-    Filter
-</button>
+<table style="margin-left: auto; margin-right: auto;">
+    <tr>
+        <td>
+            <label for="broj">Broj</label>
+            <input type="number" id="broj" value="{{broj}}">
+        </td>
+        <td>
+            <label for="neto-od">Neto od</label>
+            <input type="number" id="neto-od" value="{{neto_od}}">
+        </td>
+        <td>
+            <label for="neto-do">Neto do</label>
+            <input type="number" id="neto-do" value="{{neto_do}}">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <select id="posiljalac">
+                <option value style="color: gray;">--- Svi posiljaoci ---</option>
+                {% for e in posiljaoci: %}
+                {% if posiljalac == e[0] %}
+                <option value="{{e[0]}}" selected>{{e[0]}}</option>
+                {% else %}
+                <option value="{{e[0]}}">{{e[0]}}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+        </td>
+        <td>
+            <select id="porucilac">
+                <option value style="color: gray;">--- Svi porucioci ---</option>
+                {% for e in porucioci: %}
+                {% if porucilac == e[0] %}
+                <option value="{{e[0]}}" selected>{{e[0]}}</option>
+                {% else %}
+                <option value="{{e[0]}}">{{e[0]}}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+        </td>
+        <td>
+            <select id="primalac">
+                <option value style="color: gray;">--- Svi primaoci ---</option>
+                {% for e in primaoci: %}
+                {% if primalac == e[0] %}
+                <option value="{{e[0]}}" selected>{{e[0]}}</option>
+                {% else %}
+                <option value="{{e[0]}}">{{e[0]}}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <select id="artikal">
+                <option value style="color: gray;">--- Svi artikli ---</option>
+                {% for e in artikli: %}
+                {% if artikal == e[0] %}
+                <option value="{{e[0]}}" selected>{{e[0]}}</option>
+                {% else %}
+                <option value="{{e[0]}}">{{e[0]}}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+        </td>
+        <td>
+            <select id="prevoznik">
+                <option value style="color: gray;">--- Svi prevoznici ---</option>
+                {% for e in prevoznici: %}
+                {% if prevoznik == e[0] %}
+                <option value="{{e[0]}}" selected>{{e[0]}}</option>
+                {% else %}
+                <option value="{{e[0]}}">{{e[0]}}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+        </td>
+        <td>
+            <select id="registracija">
+                <option value style="color: gray;">--- Sve registracije ---</option>
+                {% for e in registracije: %}
+                {% if registracija == e[0] %}
+                <option value="{{e[0]}}" selected>{{e[0]}}</option>
+                {% else %}
+                <option value="{{e[0]}}">{{e[0]}}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="datum-od">Datum od</label>
+            <input type="date" id="datum-od">
+        </td>
+        <td>
+            <label for="datum-do">Datum do</label>
+            <input type="date" id="datum-do">
+        </td>
+        <td>
+            <button onclick="filter()">
+                Filter
+            </button>
+            <a href="reports">
+                <button>Clear</button>
+            </a>
+
+        </td>
+    </tr>
+</table>
+
 <div style="padding-top: 10px" id="container"/>
 {% endblock %}
 

@@ -17,6 +17,7 @@ cur = con.cursor()
 # res = cur.execute(query, [None, None, '2023-05-22 20:12:09', '2023-05-22 20:12:09'])
 # print(res.fetchall())
 
+
 def get_resources():
     res = cur.execute("select * from izvestaj;")
     return db_util.db_json_mapper(res)
@@ -28,6 +29,30 @@ def get_files():
 
 def get_file_by_name(file_name):
     return cur.execute("select * from file where name = ?", [file_name]).fetchall()
+
+
+def posiljaoci():
+    return cur.execute("select distinct posiljalac from izvestaj order by posiljalac asc").fetchall()
+
+
+def porucioci():
+    return cur.execute("select distinct porucilac from izvestaj order by porucilac asc").fetchall()
+
+
+def primaoci():
+    return cur.execute("select distinct primalac from izvestaj order by primalac asc").fetchall()
+
+
+def artikli():
+    return cur.execute("select distinct artikal from izvestaj order by artikal asc").fetchall()
+
+
+def prevoznici():
+    return cur.execute("select distinct prevoznik from izvestaj order by prevoznik asc").fetchall()
+
+
+def registracije():
+    return cur.execute("select distinct registracija from izvestaj order by registracija asc").fetchall()
 
 
 def save_file(file_name):
