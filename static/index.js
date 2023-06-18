@@ -33,7 +33,7 @@ function createTable(jsonData, sortBy) {
     let tr = document.createElement("tr");
     cols.forEach((item) => {
         let th = document.createElement("th");
-        th.innerText = item;
+        th.innerHTML = item + (item == sortBy ? (orderBy == 1 ? " &#8593;" : " &#8595;") : "")
         th.onclick = function () {
             createTable(jsonData, item)
         }
