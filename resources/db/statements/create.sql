@@ -3,6 +3,7 @@ CREATE TABLE "izvestaj"
     "id"           INTEGER NOT NULL UNIQUE,
     "broj"         INTEGER NOT NULL,
     "datum"        TEXT    NOT NULL,
+    "vreme"        TEXT    NOT NULL,
     "posiljalac"   TEXT    NOT NULL,
     "porucilac"    TEXT    NOT NULL,
     "primalac"     TEXT    NOT NULL,

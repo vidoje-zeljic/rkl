@@ -9,16 +9,17 @@ def db_json_mapper(tuple_reports):
         report = {
             "broj": json_report[1],
             "datum": json_report[2],
-            "posiljalac": json_report[3],
-            "porucilac": json_report[4],
-            "primalac": json_report[5],
-            "artikal": json_report[6],
-            "prevoznik": json_report[7],
-            "registracija": json_report[8],
-            "vozac": json_report[9],
-            "bruto": format_number(json_report[10]),
-            "tara": format_number(json_report[11]),
-            "neto": format_number(json_report[12]),
+            "vreme": json_report[3],
+            "posiljalac": json_report[4],
+            "porucilac": json_report[5],
+            "primalac": json_report[6],
+            "artikal": json_report[7],
+            "prevoznik": json_report[8],
+            "registracija": json_report[9],
+            "vozac": json_report[10],
+            "bruto": format_number(json_report[11]),
+            "tara": format_number(json_report[12]),
+            "neto": format_number(json_report[13]),
         }
         json_reports.append(report)
     return json_reports

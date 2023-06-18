@@ -6,9 +6,11 @@ def read_from_excel(file_location, file_id):
     reports = []
     for row in range(1, sh.max_row+1):
         if sh.cell(row=row, column=2).value is not None:
+            datum_vreme = str(sh.cell(row=row, column=4).value).split(" ")
             report = (
                 int(sh.cell(row=row, column=3).value),
-                str(sh.cell(row=row, column=4).value),
+                datum_vreme[0],
+                datum_vreme[1],
                 sh.cell(row=row, column=5).value.strip(),
                 sh.cell(row=row, column=6).value.strip(),
                 sh.cell(row=row, column=7).value.strip(),

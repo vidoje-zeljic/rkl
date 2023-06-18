@@ -119,19 +119,20 @@ def save_resources(file_location, file_id):
     reports = excel_reader.read_from_excel(file_location, file_id)
     cur.executemany("""
     INSERT INTO izvestaj(
-        'broj', 
-        'datum', 
-        'posiljalac', 
-        'porucilac', 
-        'primalac', 
-        'artikal', 
-        'prevoznik', 
-        'registracija', 
-        'vozac', 
-        'bruto', 
-        'tara', 
+        'broj',
+        'datum',
+        'vreme',
+        'posiljalac',
+        'porucilac',
+        'primalac',
+        'artikal',
+        'prevoznik',
+        'registracija',
+        'vozac',
+        'bruto',
+        'tara',
         'neto',
         'file_id'
     )
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""", reports)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""", reports)
     con.commit()
