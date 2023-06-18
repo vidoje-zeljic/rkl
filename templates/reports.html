@@ -10,11 +10,6 @@ onload="createTable({{reports}}, 'broj')"
 
 {% block content %}
 <h1>Reports</h1>
-<!--    <form action="/home">-->
-<!--        <label for="date">Date:</label>-->
-<!--        <input type="date" id="date" name="date" required>-->
-<!--        <input type="submit">-->
-<!--    </form>-->
 
 <table style="margin-left: auto; margin-right: auto;">
     <tr>
@@ -93,8 +88,8 @@ onload="createTable({{reports}}, 'broj')"
             <input type="date" id="datum-do" value="{{datumDo}}">
         </td>
         <td>
-            <button onclick="filter()">
-                Filter
+            <button onclick="search()">
+                Search
             </button>
             <a href="reports">
                 <button>Clear</button>

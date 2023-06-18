@@ -59,7 +59,7 @@ function isEmpty(value) {
     return value == null || value == ""
 }
 
-function filter() {
+function search() {
     queryParams = {}
 
     broj = document.getElementById("broj").value
@@ -78,8 +78,6 @@ function filter() {
     }
 
     posiljalac = document.getElementById("posiljalac").value
-    console.log("Posiljalac: ")
-    console.log(posiljalac)
     if (!isEmpty(posiljalac)) {
         queryParams.posiljalac = posiljalac
     }
@@ -120,30 +118,6 @@ function filter() {
     }
 
     reloadWithQueryStringVars("/reports", queryParams);
-
-    // let filteredData = []
-    // let search = document.getElementById("search").value
-    // jsonData.forEach(element => {
-    //     let values = Object.values(element);
-    //     let found = false
-    //     values.forEach((value) => {
-    //         if (value.toString().includes(search)) {
-    //             found = true
-    //         }
-    //     });
-    //     if (found) {
-    //         filteredData.push(element)
-    //     }
-    // })
-    // createTable(filteredData)
-}
-
-function validateForm() {
-    var date = document.forms["date-filter"]["date"].value;
-    if (date == "") {
-        alert("Name must be filled out");
-        return false;
-    }
 }
 
 
@@ -156,8 +130,8 @@ function deleteFile(file_name) {
 }
 
 function reloadWithQueryStringVars(currentUrl, queryStringVars) {
-    newQueryVars = {},
-        newUrl = currentUrl + "?";
+    newQueryVars = {};
+    newUrl = currentUrl + "?";
     if (queryStringVars) {
         for (var queryStringVar in queryStringVars) {
             newQueryVars[queryStringVar] = queryStringVars[queryStringVar];

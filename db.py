@@ -1,13 +1,14 @@
 import sqlite3
+from datetime import datetime
 
 import db_util
 import excel_reader
-from datetime import datetime
 
 DT_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 con = sqlite3.connect("./rkl.db", check_same_thread=False)
 cur = con.cursor()
+
 
 ## query = """
 # select *
@@ -18,8 +19,32 @@ cur = con.cursor()
 # print(res.fetchall())
 
 
-def get_resources():
+def get_all_resources():
     res = cur.execute("select * from izvestaj;")
+    return db_util.db_json_mapper(res)
+
+
+def get_resources(broj, neto_od, neto_do, posiljalac, porucilac, primalac, artikal, prevoznik, registracija, datum_od,
+                  datum_do):
+    query = """
+    SELECT *
+    FROM izvestaj
+    WHERE
+        (? is null or ? = broj) AND
+        (? is null or ? >= datum) AND
+        (? is null or ? <= datum) AND
+        (? is null or ? = posiljalac) AND
+        (? is null or ? = porucilac) AND
+        (? is null or ? = primalac) AND
+        (? is null or ? = artikal) AND
+        (? is null or ? = prevoznik) AND
+        (? is null or ? = registracija) AND
+        (? is null or ? >= neto) AND
+        (? is null or ? <= neto)
+    """
+    res = cur.execute(query, [broj, broj, datum_do, datum_do, datum_od, datum_od, posiljalac, posiljalac, porucilac,
+                              porucilac, primalac, primalac, artikal, artikal, prevoznik, prevoznik, registracija,
+                              registracija, neto_do, neto_do, neto_od, neto_od])
     return db_util.db_json_mapper(res)
 
 

@@ -36,10 +36,10 @@ def reports():
     artikal = None if 'artikal' not in request.args else request.args['artikal']
     prevoznik = None if 'prevoznik' not in request.args else request.args['prevoznik']
     registracija = None if 'registracija' not in request.args else request.args['registracija']
-    datumOd = None if 'datum-od' not in request.args else request.args['datum-od']
-    datumDo = None if 'datum-do' not in request.args else request.args['datum-do']
+    datum_od = None if 'datum-od' not in request.args else request.args['datum-od']
+    datum_do = None if 'datum-do' not in request.args else request.args['datum-do']
     return render_template('reports.html',
-                           reports=db.get_resources(),
+                           reports=db.get_resources(broj, neto_od, neto_do, posiljalac, porucilac, primalac, artikal, prevoznik, registracija, datum_od, datum_do),
                            posiljaoci=db.posiljaoci(),
                            porucioci=db.porucioci(),
                            primaoci=db.primaoci(),
@@ -55,8 +55,8 @@ def reports():
                            artikal=artikal,
                            prevoznik=prevoznik,
                            registracija=registracija,
-                           datumOd=datumOd,
-                           datumDo=datumDo
+                           datumOd=datum_od,
+                           datumDo=datum_do
                            )
 
 
