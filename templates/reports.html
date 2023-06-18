@@ -81,7 +81,7 @@ onload="createTable({{reports}}, 'broj')"
     <tr>
         <td>
             <label for="datum-od">Datum od</label>
-            <input type="date" id="datum-od" value="{{datumOd}}">
+                <input type="date" id="datum-od" value="{{datumOd}}">
         </td>
         <td>
             <label for="datum-do">Datum do</label>
@@ -104,10 +104,21 @@ onload="createTable({{reports}}, 'broj')"
         <td>
             Neto sum: {{neto_sum}}
         </td>
+        <td>
+            Broj dana: {{limit}}
+            <input type="hidden" value="{{limit}}">
+        </td>
     </tr>
 </table>
 
-<div style="padding-top: 10px" id="container"/>
+<div style="padding-top: 10px" id="container"></div>
+<br/>
+{% if not datumOd and not datumDo %}
+<input type="number" id="limit" value="1">
+<label for="limit"><button onclick="search({{limit}} + Number(document.getElementById('limit').value))">Load more</button></label>
+{% endif %}
+<hr/>
+<h1>END</h1>
 {% endblock %}
 
 {% block script %}

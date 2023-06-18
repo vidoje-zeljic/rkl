@@ -10,21 +10,13 @@ con = sqlite3.connect("./rkl.db", check_same_thread=False)
 cur = con.cursor()
 
 
-## query = """
-# select *
-# from izvestaj
-# where (? is null or ? = broj) and (? is null or ? = datum)
-# """
-# res = cur.execute(query, [None, None, '2023-05-22 20:12:09', '2023-05-22 20:12:09'])
-# print(res.fetchall())
-
-
 def get_all_resources():
     res = cur.execute("select * from izvestaj;")
     return db_util.db_json_mapper(res)
 
 
-def get_resources(broj, neto_od, neto_do, posiljalac, porucilac, primalac, artikal, prevoznik, registracija, datum_od,
+def get_resources(limit, broj, neto_od, neto_do, posiljalac, porucilac, primalac, artikal, prevoznik, registracija,
+                  datum_od,
                   datum_do):
     query = """
     SELECT {select}
@@ -40,24 +32,37 @@ def get_resources(broj, neto_od, neto_do, posiljalac, porucilac, primalac, artik
         (? is null or ? = prevoznik) AND
         (? is null or ? = registracija) AND
         (? is null or ? >= neto) AND
-        (? is null or ? <= neto)
+        (? is null or ? <= neto) AND
+        datum in (  
+            SELECT DISTINCT datum
+            FROM izvestaj
+            WHERE
+                (? is null or ? = broj) AND
+                (? is null or ? >= datum) AND
+                (? is null or ? <= datum) AND
+                (? is null or ? = posiljalac) AND
+                (? is null or ? = porucilac) AND
+                (? is null or ? = primalac) AND
+                (? is null or ? = artikal) AND
+                (? is null or ? = prevoznik) AND
+                (? is null or ? = registracija) AND
+                (? is null or ? >= neto) AND
+                (? is null or ? <= neto)
+            ORDER BY datum desc
+            LIMIT ?
+        )
     """
+    params = [broj, broj, datum_do, datum_do, datum_od, datum_od, posiljalac, posiljalac, porucilac,
+              porucilac, primalac, primalac, artikal, artikal, prevoznik, prevoznik, registracija,
+              registracija, neto_do, neto_do, neto_od, neto_od, broj, broj, datum_do, datum_do, datum_od,
+              datum_od, posiljalac, posiljalac, porucilac,
+              porucilac, primalac, primalac, artikal, artikal, prevoznik, prevoznik, registracija,
+              registracija, neto_do, neto_do, neto_od, neto_od, limit]
 
-    cnt = cur.execute(query.format(select="count(1)"),
-                      [broj, broj, datum_do, datum_do, datum_od, datum_od, posiljalac, posiljalac, porucilac,
-                       porucilac, primalac, primalac, artikal, artikal, prevoznik, prevoznik, registracija,
-                       registracija, neto_do, neto_do, neto_od, neto_od]
-                      ).fetchall()[0][0]
-    neto_sum = cur.execute(query.format(select="sum(neto)"),
-                      [broj, broj, datum_do, datum_do, datum_od, datum_od, posiljalac, posiljalac, porucilac,
-                       porucilac, primalac, primalac, artikal, artikal, prevoznik, prevoznik, registracija,
-                       registracija, neto_do, neto_do, neto_od, neto_od]
-                      ).fetchall()[0][0]
+    cnt = cur.execute(query.format(select="count(1)"), params).fetchall()[0][0]
+    neto_sum = cur.execute(query.format(select="sum(neto)"), params).fetchall()[0][0]
     neto_sum = 0 if neto_sum is None else neto_sum
-    res = cur.execute(query.format(select="*"),
-                      [broj, broj, datum_do, datum_do, datum_od, datum_od, posiljalac, posiljalac, porucilac,
-                       porucilac, primalac, primalac, artikal, artikal, prevoznik, prevoznik, registracija,
-                       registracija, neto_do, neto_do, neto_od, neto_od])
+    res = cur.execute(query.format(select="*"), params)
     return db_util.db_json_mapper(res), cnt, neto_sum
 
 

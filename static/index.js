@@ -59,7 +59,7 @@ function isEmpty(value) {
     return value == null || value == ""
 }
 
-function search() {
+function search(limit) {
     queryParams = {}
 
     broj = document.getElementById("broj").value
@@ -117,9 +117,12 @@ function search() {
         queryParams['datum-do'] = datumDo
     }
 
+    if (limit != null){
+        queryParams['limit'] = limit
+    }
+
     reloadWithQueryStringVars("/reports", queryParams);
 }
-
 
 function deleteFile(file_name) {
     fetch('files/' + file_name, {

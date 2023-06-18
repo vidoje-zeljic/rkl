@@ -39,7 +39,13 @@ def reports():
     registracija = None if 'registracija' not in request.args else request.args['registracija']
     datum_od = None if 'datum-od' not in request.args else request.args['datum-od']
     datum_do = None if 'datum-do' not in request.args else request.args['datum-do']
-    db_resoults = db.get_resources(broj, neto_od, neto_do, posiljalac, porucilac, primalac, artikal, prevoznik, registracija, datum_od, datum_do)
+    limit = 1
+    if datum_od is not None or datum_do is not None:
+        limit = -1
+    elif 'limit' in request.args:
+        limit = int(request.args['limit'])
+
+    db_resoults = db.get_resources(limit, broj, neto_od, neto_do, posiljalac, porucilac, primalac, artikal, prevoznik, registracija, datum_od, datum_do)
     return render_template('reports.html',
                            count=db_resoults[1],
                            neto_sum=db_util.format_number(db_resoults[2]),
@@ -60,7 +66,8 @@ def reports():
                            prevoznik=prevoznik,
                            registracija=registracija,
                            datumOd=datum_od,
-                           datumDo=datum_do
+                           datumDo=datum_do,
+                           limit=limit
                            )
 
 
