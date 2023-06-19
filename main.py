@@ -6,6 +6,7 @@ from werkzeug.security import check_password_hash
 
 import db
 import db_util
+import excel_util
 import security
 
 app = Flask(__name__)
@@ -25,7 +26,7 @@ def index():
     return render_template('index.html', user=auth.current_user())
 
 
-@app.route("/reports")
+@app.route("/reports", methods=['GET', 'POST'])
 @auth.login_required
 def reports():
     broj = None if 'broj' not in request.args else request.args['broj']
@@ -45,30 +46,41 @@ def reports():
     elif 'limit' in request.args:
         limit = int(request.args['limit'])
 
-    db_resoults = db.get_resources(limit, broj, neto_od, neto_do, posiljalac, porucilac, primalac, artikal, prevoznik, registracija, datum_od, datum_do)
-    return render_template('reports.html',
-                           count=db_resoults[1],
-                           neto_sum=db_util.format_number(db_resoults[2]),
-                           reports=db_resoults[0],
-                           posiljaoci=db.posiljaoci(),
-                           porucioci=db.porucioci(),
-                           primaoci=db.primaoci(),
-                           artikli=db.artikli(),
-                           prevoznici=db.prevoznici(),
-                           registracije=db.registracije(),
-                           broj=broj,
-                           neto_od=neto_od,
-                           neto_do=neto_do,
-                           posiljalac=posiljalac,
-                           porucilac=porucilac,
-                           primalac=primalac,
-                           artikal=artikal,
-                           prevoznik=prevoznik,
-                           registracija=registracija,
-                           datumOd=datum_od,
-                           datumDo=datum_do,
-                           limit=limit
-                           )
+    db_resoults = db.get_resources(limit, broj, neto_od, neto_do, posiljalac, porucilac, primalac, artikal, prevoznik,
+                                   registracija, datum_od, datum_do)
+
+    if request.method == 'GET':
+        return render_template('reports.html',
+                               count=db_resoults[1],
+                               neto_sum=db_util.format_number(db_resoults[2]),
+                               reports=db_resoults[0],
+                               posiljaoci=db.posiljaoci(),
+                               porucioci=db.porucioci(),
+                               primaoci=db.primaoci(),
+                               artikli=db.artikli(),
+                               prevoznici=db.prevoznici(),
+                               registracije=db.registracije(),
+                               broj=broj,
+                               neto_od=neto_od,
+                               neto_do=neto_do,
+                               posiljalac=posiljalac,
+                               porucilac=porucilac,
+                               primalac=primalac,
+                               artikal=artikal,
+                               prevoznik=prevoznik,
+                               registracija=registracija,
+                               datumOd=datum_od,
+                               datumDo=datum_do,
+                               limit=limit
+                               )
+
+    if request.method == 'POST':
+        folder_name = 'exports/'
+        file_name = 'export.xlsx'
+        print(db_resoults[0])
+        print(limit)
+        excel_util.export_to_excel(folder_name + file_name, db_resoults[0])
+        return file_name
 
 
 @app.route('/files', methods=['GET', 'POST'])
@@ -100,9 +112,24 @@ def file(file_name):
         return "OK"
 
 
+@app.route('/exports/<file_name>', methods=['GET', 'DELETE'])
+@auth.login_required
+def exports(file_name):
+    if request.method == 'GET':
+        return send_file("./exports/" + file_name, as_attachment=True)
+
+    if request.method == 'DELETE':
+        os.remove("exports/" + file_name)
+        db.delete_file(file_name)
+        return "OK"
+
+
 def get_files():
     uploads = os.fsencode("./uploads")
     files = []
     for file in os.listdir(uploads):
         files.append(os.fsdecode(file))
     return files
+
+
+app.run()

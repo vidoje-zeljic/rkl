@@ -59,7 +59,7 @@ function isEmpty(value) {
     return value == null || value == ""
 }
 
-function search(limit) {
+function generateQueryParams() {
     queryParams = {}
 
     broj = document.getElementById("broj").value
@@ -117,11 +117,34 @@ function search(limit) {
         queryParams['datum-do'] = datumDo
     }
 
-    if (limit != null){
+    limit = document.getElementById("limit").value
+    if (!isEmpty(limit)) {
         queryParams['limit'] = limit
     }
 
+    return queryParams
+}
+
+function search(limit, remove_limit = false) {
+    queryParams = generateQueryParams()
+    if (limit != null) {
+        queryParams['limit'] = limit
+    }
+    if (remove_limit) {
+        delete queryParams['limit']
+    }
+
     reloadWithQueryStringVars("/reports", queryParams);
+}
+
+function export_file() {
+    fetch('reports?' + new URLSearchParams(generateQueryParams()), {
+        method: 'POST',
+    })
+        .then(response => response.text())
+        .then(data => {
+            window.location.href = 'exports/' + data
+        })
 }
 
 function deleteFile(file_name) {

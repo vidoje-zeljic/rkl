@@ -94,7 +94,9 @@ onload="createTable({{reports}}, 'broj')"
             <a href="reports">
                 <button>Clear</button>
             </a>
-
+            <button onclick="export_file()">
+                Export
+            </button>
         </td>
     </tr>
     <tr>
@@ -105,8 +107,9 @@ onload="createTable({{reports}}, 'broj')"
             Neto sum: {{neto_sum}}
         </td>
         <td>
-            Broj dana: {{limit}}
-            <input type="hidden" value="{{limit}}">
+            <input type="hidden" id="limit" value="{{limit}}">
+            <button onclick="search(1, true)">X</button>
+            Broj prethodnih dana: {{limit}}
         </td>
     </tr>
 </table>
@@ -114,8 +117,8 @@ onload="createTable({{reports}}, 'broj')"
 <div style="padding-top: 10px" id="container"></div>
 <br/>
 {% if not datumOd and not datumDo %}
-<input type="number" id="limit" value="1">
-<label for="limit"><button onclick="search({{limit}} + Number(document.getElementById('limit').value))">Load more</button></label>
+<input type="number" id="load-more" value="1">
+<label for="load-more"><button onclick="search({{limit}} + Number(document.getElementById('load-more').value))">Load more</button></label>
 {% endif %}
 <hr/>
 <h1>END</h1>

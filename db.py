@@ -2,7 +2,7 @@ import sqlite3
 from datetime import datetime
 
 import db_util
-import excel_reader
+import excel_util
 
 DT_FORMAT = "%Y-%m-%d %H:%M:%S"
 
@@ -51,6 +51,7 @@ def get_resources(limit, broj, neto_od, neto_do, posiljalac, porucilac, primalac
             ORDER BY datum desc
             LIMIT ?
         )
+    ORDER BY broj DESC
     """
     params = [broj, broj, datum_do, datum_do, datum_od, datum_od, posiljalac, posiljalac, porucilac,
               porucilac, primalac, primalac, artikal, artikal, prevoznik, prevoznik, registracija,
@@ -121,7 +122,7 @@ def delete_file(file_name):
 
 
 def save_resources(file_location, file_id):
-    reports = excel_reader.read_from_excel(file_location, file_id)
+    reports = excel_util.read_from_excel(file_location, file_id)
     cur.executemany("""
     INSERT INTO izvestaj(
         'broj',
