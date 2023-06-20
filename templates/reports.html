@@ -28,24 +28,27 @@ onload="createTable({{reports}}, 'broj', {{optionalColumns}})"
     </tr>
     <tr>
         <td>
-            <select id="posiljalac">
-                <option value style="color: gray;">--- Svi posiljaoci ---</option>
+            <label for="posiljalac">Posiljaoci:&nbsp;</label>
+            <select id="posiljalac" style="text-align: center;">
+                <option value>--- Svi ---</option>
                 {% for e in posiljaoci: %}
                 <option value="{{e[0]}}" {% if posiljalac== e[0] %} selected {% endif %}>{{e[0]}}</option>
                 {% endfor %}
             </select>
         </td>
         <td>
-            <select id="porucilac">
-                <option value style="color: gray;">--- Svi porucioci ---</option>
+            <label for="porucilac">Porucioci:&nbsp;</label>
+            <select id="porucilac" style="text-align: center;">
+                <option value>--- Svi ---</option>
                 {% for e in porucioci: %}
                 <option value="{{e[0]}}" {% if porucilac== e[0] %} selected {% endif %}>{{e[0]}}</option>
                 {% endfor %}
             </select>
         </td>
         <td>
-            <select id="primalac">
-                <option value style="color: gray;">--- Svi primaoci ---</option>
+            <label for="primalac">Primaoci:&nbsp;</label>
+            <select id="primalac" style="text-align: center;">
+                <option value>--- Svi ---</option>
                 {% for e in primaoci: %}
                 <option value="{{e[0]}}" {% if primalac== e[0] %} selected {% endif %}>{{e[0]}}</option>
                 {% endfor %}
@@ -54,24 +57,27 @@ onload="createTable({{reports}}, 'broj', {{optionalColumns}})"
     </tr>
     <tr>
         <td>
-            <select id="artikal">
-                <option value style="color: gray;">--- Svi artikli ---</option>
+            <label for="artikal">Artikli:&nbsp;</label>
+            <select id="artikal" style="text-align: center;">
+                <option value>--- Svi ---</option>
                 {% for e in artikli: %}
                 <option value="{{e[0]}}" {% if artikal== e[0] %} selected {% endif %}>{{e[0]}}</option>
                 {% endfor %}
             </select>
         </td>
         <td>
-            <select id="prevoznik">
-                <option value style="color: gray;">--- Svi prevoznici ---</option>
+            <label for="prevoznik">Prevoznici:&nbsp;</label>
+            <select id="prevoznik" style="text-align: center;">
+                <option value>--- Svi ---</option>
                 {% for e in prevoznici: %}
                 <option value="{{e[0]}}" {% if prevoznik== e[0] %} selected {% endif %}>{{e[0]}}</option>
                 {% endfor %}
             </select>
         </td>
         <td>
-            <select id="registracija">
-                <option value style="color: gray;">--- Sve registracije ---</option>
+            <label for="registracija">Registracije:&nbsp;</label>
+            <select id="registracija" style="text-align: center;">
+                <option value>--- Sve ---</option>
                 {% for e in registracije: %}
                 <option value="{{e[0]}}" {% if registracija== e[0] %} selected {% endif %}>{{e[0]}}</option>
                 {% endfor %}

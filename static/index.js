@@ -51,7 +51,7 @@ function createTable(jsonData, sortBy, optionalColumns) {
         let th = document.createElement("th");
         th.innerHTML = item + (item == sortBy ? (orderBy == 1 ? " &#8593;" : " &#8595;") : "")
         th.onclick = function () {
-            createTable(jsonData, item)
+            createTable(jsonData, item, optionalColumns)
         }
         tr.appendChild(th);
     });
