@@ -1,12 +1,28 @@
 let lastSortedBy = "broj"
 let orderBy = 1
 
-function createTable(jsonData, sortBy) {
+function createTable(jsonData, sortBy, optionalColumns) {
+    console.log(optionalColumns)
     if (jsonData.length == 0) {
         let container = document.getElementById("container");
         container.innerHTML = ''
         return
     }
+
+    jsonData.forEach(e => {
+        if (optionalColumns['primalac'] == 'false') {
+            delete e['primalac']
+        }
+        if (optionalColumns['vozac'] == 'false') {
+            delete e['vozac']
+        }
+        if (optionalColumns['bruto'] == 'false') {
+            delete e['bruto']
+        }
+        if (optionalColumns['tara'] == 'false') {
+            delete e['tara']
+        }
+    })
 
     if (lastSortedBy === sortBy) {
         orderBy = -orderBy
@@ -126,20 +142,16 @@ function generateQueryParams() {
         queryParams['primalac-checkbox'] = true
     }
 
-    if (document.querySelector('#primalac-checkbox:checked') != null) {
+    if (document.querySelector('#vozac-checkbox:checked') != null) {
         queryParams['vozac-checkbox'] = true
     }
 
-    if (document.querySelector('#primalac-checkbox:checked') != null) {
+    if (document.querySelector('#bruto-checkbox:checked') != null) {
         queryParams['bruto-checkbox'] = true
     }
 
-    if (document.querySelector('#primalac-checkbox:checked') != null) {
+    if (document.querySelector('#tara-checkbox:checked') != null) {
         queryParams['tara-checkbox'] = true
-    }
-
-    if (document.querySelector('#primalac-checkbox:checked') != null) {
-        queryParams['mesto-checkbox'] = true
     }
 
     return queryParams

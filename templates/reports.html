@@ -5,7 +5,7 @@ Reports
 {% endblock %}
 
 {% block body_onload %}
-onload="createTable({{reports}}, 'broj')"
+onload="createTable({{reports}}, 'broj', {{optionalColumns}})"
 {% endblock %}
 
 {% block content %}
@@ -114,20 +114,17 @@ onload="createTable({{reports}}, 'broj')"
     </tr>
     <tr>
         <td colspan="3">
-            <input type="checkbox" id="primalac-checkbox" {% if primalacCheckbox %} checked {% endif %}>
+            <input type="checkbox" id="primalac-checkbox" {% if optionalColumns['primalac'] == 'true' %} checked {% endif %}>
             <label for="primalac-checkbox">Primalac</label>
 
-            <input type="checkbox" id="vozac-checkbox" {% if vozacCheckbox %} checked {% endif %}>
+            <input type="checkbox" id="vozac-checkbox" {% if optionalColumns['vozac'] == 'true' %} checked {% endif %}>
             <label for="vozac-checkbox">Vozac</label>
 
-            <input type="checkbox" id="bruto-checkbox" {% if brutoCheckbox %} checked {% endif %}>
+            <input type="checkbox" id="bruto-checkbox" {% if optionalColumns['bruto'] == 'true' %} checked {% endif %}>
             <label for="bruto-checkbox">Bruto</label>
 
-            <input type="checkbox" id="tara-checkbox" {% if taraCheckbox %} checked {% endif %}>
+            <input type="checkbox" id="tara-checkbox" {% if optionalColumns['tara'] == 'true' %} checked {% endif %}>
             <label for="tara-checkbox">Tara</label>
-
-            <input type="checkbox" id="mesto-checkbox" {% if mestoCheckbox %} checked {% endif %}>
-            <label for="mesto-checkbox">Mesto</label>
         </td>
     </tr>
 </table>
