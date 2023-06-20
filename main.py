@@ -46,6 +46,12 @@ def reports():
     elif 'limit' in request.args:
         limit = int(request.args['limit'])
 
+    primalac_checkbox = None if 'primalac-checkbox' not in request.args else request.args['primalac-checkbox']
+    vozac_checkbox = None if 'vozac-checkbox' not in request.args else request.args['vozac-checkbox']
+    bruto_checkbox = None if 'bruto-checkbox' not in request.args else request.args['bruto-checkbox']
+    tara_checkbox = None if 'tara-checkbox' not in request.args else request.args['tara-checkbox']
+    mesto_checkbox = None if 'mesto-checkbox' not in request.args else request.args['mesto-checkbox']
+
     db_resoults = db.get_resources(limit, broj, neto_od, neto_do, posiljalac, porucilac, primalac, artikal, prevoznik,
                                    registracija, datum_od, datum_do)
 
@@ -71,7 +77,12 @@ def reports():
                                registracija=registracija,
                                datumOd=datum_od,
                                datumDo=datum_do,
-                               limit=limit
+                               limit=limit,
+                               primalacCheckbox=primalac_checkbox,
+                               vozacCheckbox=vozac_checkbox,
+                               brutoCheckbox=bruto_checkbox,
+                               taraCheckbox=tara_checkbox,
+                               mestoCheckbox=mesto_checkbox
                                )
 
     if request.method == 'POST':

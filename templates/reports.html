@@ -31,7 +31,7 @@ onload="createTable({{reports}}, 'broj')"
             <select id="posiljalac">
                 <option value style="color: gray;">--- Svi posiljaoci ---</option>
                 {% for e in posiljaoci: %}
-                <option value="{{e[0]}}"{% if posiljalac == e[0] %} selected {% endif %}>{{e[0]}}</option>
+                <option value="{{e[0]}}" {% if posiljalac== e[0] %} selected {% endif %}>{{e[0]}}</option>
                 {% endfor %}
             </select>
         </td>
@@ -39,7 +39,7 @@ onload="createTable({{reports}}, 'broj')"
             <select id="porucilac">
                 <option value style="color: gray;">--- Svi porucioci ---</option>
                 {% for e in porucioci: %}
-                <option value="{{e[0]}}" {% if porucilac == e[0] %} selected {% endif %}>{{e[0]}}</option>
+                <option value="{{e[0]}}" {% if porucilac== e[0] %} selected {% endif %}>{{e[0]}}</option>
                 {% endfor %}
             </select>
         </td>
@@ -47,7 +47,7 @@ onload="createTable({{reports}}, 'broj')"
             <select id="primalac">
                 <option value style="color: gray;">--- Svi primaoci ---</option>
                 {% for e in primaoci: %}
-                <option value="{{e[0]}}" {% if primalac == e[0] %} selected {% endif %}>{{e[0]}}</option>
+                <option value="{{e[0]}}" {% if primalac== e[0] %} selected {% endif %}>{{e[0]}}</option>
                 {% endfor %}
             </select>
         </td>
@@ -57,7 +57,7 @@ onload="createTable({{reports}}, 'broj')"
             <select id="artikal">
                 <option value style="color: gray;">--- Svi artikli ---</option>
                 {% for e in artikli: %}
-                <option value="{{e[0]}}" {% if artikal == e[0] %} selected {% endif %}>{{e[0]}}</option>
+                <option value="{{e[0]}}" {% if artikal== e[0] %} selected {% endif %}>{{e[0]}}</option>
                 {% endfor %}
             </select>
         </td>
@@ -65,7 +65,7 @@ onload="createTable({{reports}}, 'broj')"
             <select id="prevoznik">
                 <option value style="color: gray;">--- Svi prevoznici ---</option>
                 {% for e in prevoznici: %}
-                <option value="{{e[0]}}" {% if prevoznik == e[0] %} selected {% endif %}>{{e[0]}}</option>
+                <option value="{{e[0]}}" {% if prevoznik== e[0] %} selected {% endif %}>{{e[0]}}</option>
                 {% endfor %}
             </select>
         </td>
@@ -73,7 +73,7 @@ onload="createTable({{reports}}, 'broj')"
             <select id="registracija">
                 <option value style="color: gray;">--- Sve registracije ---</option>
                 {% for e in registracije: %}
-                <option value="{{e[0]}}" {% if registracija == e[0] %} selected {% endif %}>{{e[0]}}</option>
+                <option value="{{e[0]}}" {% if registracija== e[0] %} selected {% endif %}>{{e[0]}}</option>
                 {% endfor %}
             </select>
         </td>
@@ -81,7 +81,7 @@ onload="createTable({{reports}}, 'broj')"
     <tr>
         <td>
             <label for="datum-od">Datum od</label>
-                <input type="date" id="datum-od" value="{{datumOd}}">
+            <input type="date" id="datum-od" value="{{datumOd}}">
         </td>
         <td>
             <label for="datum-do">Datum do</label>
@@ -112,13 +112,33 @@ onload="createTable({{reports}}, 'broj')"
             Broj prethodnih dana: {{limit}}
         </td>
     </tr>
+    <tr>
+        <td colspan="3">
+            <input type="checkbox" id="primalac-checkbox" {% if primalacCheckbox %} checked {% endif %}>
+            <label for="primalac-checkbox">Primalac</label>
+
+            <input type="checkbox" id="vozac-checkbox" {% if vozacCheckbox %} checked {% endif %}>
+            <label for="vozac-checkbox">Vozac</label>
+
+            <input type="checkbox" id="bruto-checkbox" {% if brutoCheckbox %} checked {% endif %}>
+            <label for="bruto-checkbox">Bruto</label>
+
+            <input type="checkbox" id="tara-checkbox" {% if taraCheckbox %} checked {% endif %}>
+            <label for="tara-checkbox">Tara</label>
+
+            <input type="checkbox" id="mesto-checkbox" {% if mestoCheckbox %} checked {% endif %}>
+            <label for="mesto-checkbox">Mesto</label>
+        </td>
+    </tr>
 </table>
 
 <div style="padding-top: 10px" id="container"></div>
 <br/>
 {% if not datumOd and not datumDo %}
 <input type="number" id="load-more" value="1">
-<label for="load-more"><button onclick="search({{limit}} + Number(document.getElementById('load-more').value))">Load more</button></label>
+<label for="load-more">
+    <button onclick="search({{limit}} + Number(document.getElementById('load-more').value))">Load more</button>
+</label>
 {% endif %}
 <hr/>
 <h1>END</h1>

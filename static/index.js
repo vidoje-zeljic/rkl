@@ -122,6 +122,26 @@ function generateQueryParams() {
         queryParams['limit'] = limit
     }
 
+    if (document.querySelector('#primalac-checkbox:checked') != null) {
+        queryParams['primalac-checkbox'] = true
+    }
+
+    if (document.querySelector('#primalac-checkbox:checked') != null) {
+        queryParams['vozac-checkbox'] = true
+    }
+
+    if (document.querySelector('#primalac-checkbox:checked') != null) {
+        queryParams['bruto-checkbox'] = true
+    }
+
+    if (document.querySelector('#primalac-checkbox:checked') != null) {
+        queryParams['tara-checkbox'] = true
+    }
+
+    if (document.querySelector('#primalac-checkbox:checked') != null) {
+        queryParams['mesto-checkbox'] = true
+    }
+
     return queryParams
 }
 
