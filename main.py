@@ -91,8 +91,6 @@ def reports():
     if request.method == 'POST':
         folder_name = 'exports/'
         file_name = 'export.xlsx'
-        print(db_resoults[0])
-        print(limit)
         excel_util.export_to_excel(folder_name + file_name, db_resoults[0])
         return file_name
 

@@ -138,7 +138,8 @@ def save_resources(file_location, file_id):
         'bruto',
         'tara',
         'neto',
+        'mesto',
         'file_id'
     )
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""", reports)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""", reports)
     con.commit()

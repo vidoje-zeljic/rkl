@@ -1,3 +1,19 @@
+CREATE TABLE "file"
+(
+    "id"        INTEGER NOT NULL UNIQUE,
+    "name"      TEXT    NOT NULL UNIQUE,
+    "upload_dt" TEXT    NOT NULL,
+    PRIMARY KEY ("id" AUTOINCREMENT)
+);
+
+insert into file(name)
+values ('f1.txt');
+
+INSERT INTO izvestaj('broj', 'datum', 'posiljalac', 'porucilac', 'primalac', 'artikal', 'prevoznik', 'registracija',
+    'vozac', 'bruto', 'tara', 'neto', 'file_id')
+VALUES (1, '2020-10-10', 'posiljalac1', 'porucilac1', 'primalac1', 'artikal1', 'prevoznik1', 'registracija1', 'vozac1',
+        1000, 500, 200, 2)
+
 CREATE TABLE "izvestaj"
 (
     "id"           INTEGER NOT NULL UNIQUE,
@@ -14,23 +30,8 @@ CREATE TABLE "izvestaj"
     "bruto"        REAL    NOT NULL,
     "tara"         REAL    NOT NULL,
     "neto"         REAL    NOT NULL,
+    "mesto"        TEXT    NOT NULL,
     "file_id"      INTEGER,
     PRIMARY KEY ("id" AUTOINCREMENT),
     FOREIGN KEY ("file_id") REFERENCES "file"
 );
-
-CREATE TABLE "file"
-(
-    "id"        INTEGER NOT NULL UNIQUE,
-    "name"      TEXT    NOT NULL UNIQUE,
-    "upload_dt" TEXT    NOT NULL,
-    PRIMARY KEY ("id" AUTOINCREMENT)
-);
-
-insert into file(name)
-values ('f1.txt');
-
-INSERT INTO izvestaj('broj', 'datum', 'posiljalac', 'porucilac', 'primalac', 'artikal', 'prevoznik', 'registracija',
-    'vozac', 'bruto', 'tara', 'neto', 'file_id')
-VALUES (1, '2020-10-10', 'posiljalac1', 'porucilac1', 'primalac1', 'artikal1', 'prevoznik1', 'registracija1', 'vozac1',
-        1000, 500, 200, 2)

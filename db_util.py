@@ -20,6 +20,7 @@ def db_json_mapper(tuple_reports):
             "bruto": format_number(json_report[11]),
             "tara": format_number(json_report[12]),
             "neto": format_number(json_report[13]),
+            "mesto": (json_report[14] if json_report[14] else ""),
         }
         json_reports.append(report)
     return json_reports

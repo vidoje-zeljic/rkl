@@ -8,6 +8,9 @@ def read_from_excel(file_location, file_id):
     for row in range(1, sh.max_row + 1):
         if sh.cell(row=row, column=2).value is not None:
             datum_vreme = str(sh.cell(row=row, column=4).value).split(" ")
+            mesto = None
+            if sh.cell(row=row, column=15).value:
+                mesto = sh.cell(row=row, column=15).value.strip()
             report = (
                 int(sh.cell(row=row, column=3).value),
                 datum_vreme[0],
@@ -22,6 +25,7 @@ def read_from_excel(file_location, file_id):
                 float(sh.cell(row=row, column=12).value),
                 float(sh.cell(row=row, column=13).value),
                 float(sh.cell(row=row, column=14).value),
+                mesto,
                 file_id
             )
             reports.append(report)
@@ -55,6 +59,7 @@ def export_to_excel(file_name, data):
     worksheet.write(3, 10, "Bruto (kg)", cell_format)
     worksheet.write(3, 11, "Tara (kg)", cell_format)
     worksheet.write(3, 12, "Neto (kg)", cell_format)
+    worksheet.write(3, 13, "Mesto", cell_format)
 
     row = 4
     col = 1

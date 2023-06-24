@@ -2,7 +2,6 @@ let lastSortedBy = "broj"
 let orderBy = 1
 
 function createTable(jsonData, sortBy, optionalColumns) {
-    console.log(optionalColumns)
     if (jsonData.length == 0) {
         let container = document.getElementById("container");
         container.innerHTML = ''
