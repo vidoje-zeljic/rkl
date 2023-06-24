@@ -120,6 +120,9 @@ onload="createTable({{reports}}, 'broj', {{optionalColumns}})"
     </tr>
     <tr>
         <td colspan="3">
+            <input type="checkbox" id="vreme-checkbox" {% if optionalColumns['vreme'] == 'true' %} checked {% endif %}>
+            <label for="vreme-checkbox">Vreme</label>
+
             <input type="checkbox" id="primalac-checkbox" {% if optionalColumns['primalac'] == 'true' %} checked {% endif %}>
             <label for="primalac-checkbox">Primalac</label>
 

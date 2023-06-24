@@ -46,11 +46,13 @@ def reports():
     elif 'limit' in request.args:
         limit = int(request.args['limit'])
 
+    vreme_checkbox = 'false' if 'vreme-checkbox' not in request.args else request.args['vreme-checkbox']
     primalac_checkbox = 'false' if 'primalac-checkbox' not in request.args else request.args['primalac-checkbox']
     vozac_checkbox = 'false' if 'vozac-checkbox' not in request.args else request.args['vozac-checkbox']
     bruto_checkbox = 'false' if 'bruto-checkbox' not in request.args else request.args['bruto-checkbox']
     tara_checkbox = 'false' if 'tara-checkbox' not in request.args else request.args['tara-checkbox']
     optional_columns = {
+        'vreme': vreme_checkbox,
         'primalac': primalac_checkbox,
         'vozac': vozac_checkbox,
         'bruto': bruto_checkbox,

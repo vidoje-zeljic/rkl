@@ -10,6 +10,9 @@ function createTable(jsonData, sortBy, optionalColumns) {
     }
 
     jsonData.forEach(e => {
+        if (optionalColumns['vreme'] == 'false') {
+            delete e['vreme']
+        }
         if (optionalColumns['primalac'] == 'false') {
             delete e['primalac']
         }
@@ -136,6 +139,10 @@ function generateQueryParams() {
     limit = document.getElementById("limit").value
     if (!isEmpty(limit)) {
         queryParams['limit'] = limit
+    }
+
+    if (document.querySelector('#vreme-checkbox:checked') != null) {
+        queryParams['vreme-checkbox'] = true
     }
 
     if (document.querySelector('#primalac-checkbox:checked') != null) {
