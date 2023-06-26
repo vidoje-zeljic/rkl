@@ -35,3 +35,13 @@ CREATE TABLE "izvestaj"
     PRIMARY KEY ("id" AUTOINCREMENT),
     FOREIGN KEY ("file_id") REFERENCES "file"
 );
+
+create table cena
+(
+    id         integer not null /*autoincrement needs PK*/,
+    datum_od   TEXT    not null,
+    posiljalac TEXT    not null,
+    artikal    TEXT    not null,
+    mesto      TEXT    not null,
+    cena       integer not null
+);

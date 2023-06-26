@@ -99,6 +99,10 @@ def registracije():
     return cur.execute("select distinct registracija from izvestaj order by registracija asc").fetchall()
 
 
+def mesta():
+    return cur.execute("select distinct mesto from izvestaj where mesto is not null order by mesto asc").fetchall()
+
+
 def save_file(file_name):
     result = cur.execute("""
     INSERT INTO file(name, upload_dt)
@@ -143,3 +147,35 @@ def save_resources(file_location, file_id):
     )
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""", reports)
     con.commit()
+
+
+def save_price(price):
+    cur.execute("""
+    INSERT INTO cena(
+        'datum_od',
+        'posiljalac',
+        'artikal',
+        'mesto',
+        'cena'
+    )
+    VALUES (?, ?, ?, ?, ?)""", list(price.values()))
+    con.commit()
+
+
+def prices():
+    return cur.execute("select * from cena").fetchall()
+
+
+def pricesJson():
+    prices = cur.execute("select * from cena").fetchall()
+    pricesJson = []
+    for price in prices:
+        priceJson = {
+            "datum-od": price[1],
+            "posiljalac": price[2],
+            "artikal": price[3],
+            "mesto": price[4],
+            "cena": price[5],
+        }
+        pricesJson.append(priceJson)
+    return pricesJson

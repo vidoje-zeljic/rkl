@@ -136,6 +136,24 @@ def exports(file_name):
         return "OK"
 
 
+@app.route("/finance")
+@auth.login_required
+def finance():
+    return render_template('finance.html',
+                           prices=db.pricesJson(),
+                           posiljaoci=db.posiljaoci(),
+                           artikli=db.artikli(),
+                           mesta=db.mesta(),
+                           )
+
+
+@app.route("/prices", methods=["POST"])
+@auth.login_required
+def create_price():
+    db.save_price(request.json)
+    return "OK"
+
+
 def get_files():
     uploads = os.fsencode("./uploads")
     files = []
