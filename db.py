@@ -20,7 +20,7 @@ def get_resources(limit, broj, neto_od, neto_do, posiljalac, porucilac, primalac
                   datum_do):
     query = """
     SELECT {select}
-    FROM izvestaj
+    FROM izvestaj i
     WHERE
         (? is null or ? = broj) AND
         (? is null or ? >= datum) AND
@@ -63,8 +63,29 @@ def get_resources(limit, broj, neto_od, neto_do, posiljalac, porucilac, primalac
     cnt = cur.execute(query.format(select="count(1)"), params).fetchall()[0][0]
     neto_sum = cur.execute(query.format(select="sum(neto)"), params).fetchall()[0][0]
     neto_sum = 0 if neto_sum is None else neto_sum
-    res = cur.execute(query.format(select="*"), params)
-    return db_util.db_json_mapper(res), cnt, neto_sum
+    cena_sql = """
+    CASE
+        WHEN mesto is null
+            THEN 0
+        ELSE (
+            select c.cena * i.neto
+            from cena c
+            where
+                c.datum_od <= i.datum
+                and c.posiljalac = i.posiljalac
+                and c.artikal = i.artikal
+                and c.mesto = i.mesto
+            order by c.datum_od desc
+            limit 1
+        )
+    END"""
+    izvestaj_cena_select = f"""*,
+    {cena_sql} AS cena"""
+    sum_izvestaj_cena_select = f"""SUM({cena_sql}) AS cena"""
+    cena_sum = cur.execute(query.format(select=sum_izvestaj_cena_select), params).fetchall()[0][0]
+    cena_sum = 0 if cena_sum is None else cena_sum
+    res = cur.execute(query.format(select=izvestaj_cena_select), params)
+    return db_util.db_json_mapper(res), cnt, neto_sum, cena_sum
 
 
 def get_files():

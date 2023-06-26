@@ -62,10 +62,12 @@ def reports():
     db_resoults = db.get_resources(limit, broj, neto_od, neto_do, posiljalac, porucilac, primalac, artikal, prevoznik,
                                    registracija, datum_od, datum_do)
 
+    print(db_resoults[3])
     if request.method == 'GET':
         return render_template('reports.html',
                                count=db_resoults[1],
                                neto_sum=db_util.format_number(db_resoults[2]),
+                               cena_sum=db_util.format_number(db_resoults[3]),
                                reports=db_resoults[0],
                                posiljaoci=db.posiljaoci(),
                                porucioci=db.porucioci(),

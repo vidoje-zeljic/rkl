@@ -113,13 +113,11 @@ onload="createTable({{reports}}, 'broj', {{optionalColumns}})"
             Neto sum: {{neto_sum}}
         </td>
         <td>
-            <input type="hidden" id="limit" value="{{limit}}">
-            <button onclick="search(1, true)">X</button>
-            Broj prethodnih dana: {{limit}}
+            Cena sum: {{cena_sum}}
         </td>
     </tr>
     <tr>
-        <td colspan="3">
+        <td colspan="2">
             <input type="checkbox" id="vreme-checkbox" {% if optionalColumns['vreme'] == 'true' %} checked {% endif %}>
             <label for="vreme-checkbox">Vreme</label>
 
@@ -134,6 +132,11 @@ onload="createTable({{reports}}, 'broj', {{optionalColumns}})"
 
             <input type="checkbox" id="tara-checkbox" {% if optionalColumns['tara'] == 'true' %} checked {% endif %}>
             <label for="tara-checkbox">Tara</label>
+        </td>
+        <td>
+            <input type="hidden" id="limit" value="{{limit}}">
+            <button onclick="search(1, true)">X</button>
+            Broj prethodnih dana: {{limit}}
         </td>
     </tr>
 </table>

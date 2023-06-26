@@ -11,6 +11,7 @@ def read_from_excel(file_location, file_id):
             mesto = None
             if sh.cell(row=row, column=15).value:
                 mesto = sh.cell(row=row, column=15).value.strip()
+            artikal = sh.cell(row=row, column=8).value.strip()
             report = (
                 int(sh.cell(row=row, column=3).value),
                 datum_vreme[0],
@@ -18,7 +19,8 @@ def read_from_excel(file_location, file_id):
                 sh.cell(row=row, column=5).value.strip(),
                 sh.cell(row=row, column=6).value.strip(),
                 sh.cell(row=row, column=7).value.strip(),
-                sh.cell(row=row, column=8).value.strip(),
+                # Artikal
+                artikalMapper(artikal),
                 sh.cell(row=row, column=9).value.strip(),
                 sh.cell(row=row, column=10).value.strip(),
                 sh.cell(row=row, column=11).value.strip(),
@@ -30,6 +32,22 @@ def read_from_excel(file_location, file_id):
             )
             reports.append(report)
     return reports
+
+
+def artikalMapper(artikal):
+    if artikal == "Agregat 0-31 mm" or artikal == "Agregat 0-31mm":
+        return "0-31"
+    if artikal == "Agregat 0-63 mm":
+        return "0-63"
+    if artikal == "Tucanik 31-63 mm":
+        return "31-63"
+    if artikal == "Agregat 70-150 mm":
+        return "70-150"
+    if artikal == "Agregat 150-450 mm":
+        return "150-450"
+    if artikal == "Lomljen kamen":
+        return "Lomljen"
+    return artikal
 
 
 def export_to_excel(file_name, data):
