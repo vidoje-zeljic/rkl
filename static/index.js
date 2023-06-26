@@ -245,7 +245,7 @@ function insert() {
     })
         .then(response => response.text())
         .then(data => {
-            window.location.href = 'finance'
+            window.location.href = 'prices'
         })
 }
 
@@ -280,7 +280,7 @@ function createTablePrice(jsonData, sortBy) {
     let cols = Object.keys(jsonData[0]);
 
     let tr = document.createElement("tr");
-    cols.forEach((item) => {
+    cols.slice(1).forEach((item) => {
         let th = document.createElement("th");
         th.innerHTML = item + (item == sortBy ? (orderBy == 1 ? " &#8593;" : " &#8595;") : "")
         th.onclick = function () {
@@ -293,13 +293,26 @@ function createTablePrice(jsonData, sortBy) {
     jsonData.forEach((item) => {
         let tr = document.createElement("tr");
         let vals = Object.values(item);
-        vals.forEach((elem) => {
+        vals.slice(1).forEach((elem) => {
             let td = document.createElement("td");
             td.innerText = elem;
             tr.appendChild(td);
         });
+        let th = document.createElement("th");
+        console.log(vals[0])
+        th.innerHTML = `<button onclick=deletePrice(${vals[0]})> Delete </button>`
+        tr.appendChild(th);
         table.appendChild(tr);
     });
 
     container.appendChild(table);
+}
+
+
+function deletePrice(id) {
+    fetch('prices/' + id, {
+        method: 'DELETE',
+    }).then(() => {
+        window.location.href = "/prices"
+    })
 }

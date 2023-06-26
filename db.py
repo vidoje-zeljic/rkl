@@ -183,6 +183,13 @@ def save_price(price):
     con.commit()
 
 
+def delete_price(id):
+    cur.execute("""
+    DELETE FROM cena
+    WHERE id = ?""", [id])
+    con.commit()
+
+
 def prices():
     return cur.execute("select * from cena").fetchall()
 
@@ -192,6 +199,7 @@ def pricesJson():
     pricesJson = []
     for price in prices:
         priceJson = {
+            "id": price[0],
             "datum-od": price[1],
             "posiljalac": price[2],
             "artikal": price[3],

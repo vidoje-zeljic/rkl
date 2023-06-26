@@ -138,21 +138,25 @@ def exports(file_name):
         return "OK"
 
 
-@app.route("/finance")
-@auth.login_required
-def finance():
-    return render_template('finance.html',
-                           prices=db.pricesJson(),
-                           posiljaoci=db.posiljaoci(),
-                           artikli=db.artikli(),
-                           mesta=db.mesta(),
-                           )
-
-
-@app.route("/prices", methods=["POST"])
+@app.route("/prices", methods=["GET", "POST"])
 @auth.login_required
 def create_price():
-    db.save_price(request.json)
+    if request.method == 'GET':
+        return render_template('prices.html',
+                               prices=db.pricesJson(),
+                               posiljaoci=db.posiljaoci(),
+                               artikli=db.artikli(),
+                               mesta=db.mesta(),
+                               )
+    if request.method == 'POST':
+        db.save_price(request.json)
+        return "OK"
+
+
+@app.route("/prices/<id>", methods=["DELETE"])
+@auth.login_required
+def delete_price(id):
+    db.delete_price(id)
     return "OK"
 
 
