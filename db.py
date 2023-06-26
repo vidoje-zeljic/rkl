@@ -63,22 +63,17 @@ def get_resources(limit, broj, neto_od, neto_do, posiljalac, porucilac, primalac
     cnt = cur.execute(query.format(select="count(1)"), params).fetchall()[0][0]
     neto_sum = cur.execute(query.format(select="sum(neto)"), params).fetchall()[0][0]
     neto_sum = 0 if neto_sum is None else neto_sum
-    cena_sql = """
-    CASE
-        WHEN mesto is null
-            THEN 0
-        ELSE (
-            select c.cena * i.neto
-            from cena c
-            where
-                c.datum_od <= i.datum
-                and c.porucilac = i.porucilac
-                and c.artikal = i.artikal
-                and c.mesto = i.mesto
-            order by c.datum_od desc
-            limit 1
-        )
-    END"""
+    cena_sql = """(
+        select c.cena * i.neto * 0.0012
+        from cena c
+        where
+            c.datum_od <= i.datum
+            and c.porucilac = i.porucilac
+            and c.artikal = i.artikal
+            and ((c.mesto is NULL and i.mesto is NULL) OR c.mesto = i.mesto)
+        order by c.datum_od desc
+        limit 1
+        )"""
     izvestaj_cena_select = f"""*,
     {cena_sql} AS cena"""
     sum_izvestaj_cena_select = f"""SUM({cena_sql}) AS cena"""
@@ -203,7 +198,7 @@ def pricesJson():
             "datum-od": price[1],
             "posiljalac": price[2],
             "artikal": price[3],
-            "mesto": price[4],
+            "mesto": price[4] if price[4] is not None else "",
             "cena": price[5],
         }
         pricesJson.append(priceJson)

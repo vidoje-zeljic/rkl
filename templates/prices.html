@@ -34,6 +34,7 @@ onload="createTablePrice({{prices}}, 'datum-od')"
         <td>
             <label for="mesto">Mesto:&nbsp;</label>
             <select id="mesto" style="text-align: center;">
+                <option value="X">X</option>
                 {% for e in mesta: %}
                 <option value="{{e[0]}}">{{e[0]}}</option>
                 {% endfor %}

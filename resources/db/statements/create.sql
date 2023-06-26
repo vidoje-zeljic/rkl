@@ -42,6 +42,7 @@ create table cena
     datum_od   TEXT    not null,
     porucilac  TEXT    not null,
     artikal    TEXT    not null,
-    mesto      TEXT    not null,
-    cena       integer not null
+    mesto      TEXT,
+    cena       integer not null,
+    PRIMARY KEY ("id" AUTOINCREMENT),
 );

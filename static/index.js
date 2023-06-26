@@ -217,6 +217,9 @@ function insert() {
     porucilac = document.getElementById("porucilac").value
     artikal = document.getElementById("artikal").value
     mesto = document.getElementById("mesto").value
+    if (mesto == "X") {
+        mesto = NaN
+    }
     cena = document.getElementById("cena").value
     if (datumOd == "") {
         alert("Datum je obavezan")
