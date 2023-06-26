@@ -72,7 +72,7 @@ def get_resources(limit, broj, neto_od, neto_do, posiljalac, porucilac, primalac
             from cena c
             where
                 c.datum_od <= i.datum
-                and c.posiljalac = i.posiljalac
+                and c.porucilac = i.porucilac
                 and c.artikal = i.artikal
                 and c.mesto = i.mesto
             order by c.datum_od desc
@@ -174,7 +174,7 @@ def save_price(price):
     cur.execute("""
     INSERT INTO cena(
         'datum_od',
-        'posiljalac',
+        'porucilac',
         'artikal',
         'mesto',
         'cena'

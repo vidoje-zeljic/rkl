@@ -16,9 +16,9 @@ onload="createTablePrice({{prices}}, 'datum-od')"
             <input type="date" id="datum-od">
         </td>
         <td>
-            <label for="posiljalac">Posiljaoci:&nbsp;</label>
-            <select id="posiljalac" style="text-align: center;">
-                {% for e in posiljaoci: %}
+            <label for="porucilac">Porucioci:&nbsp;</label>
+            <select id="porucilac" style="text-align: center;">
+                {% for e in porucioci: %}
                 <option value="{{e[0]}}">{{e[0]}}</option>
                 {% endfor %}
             </select>

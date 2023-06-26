@@ -40,7 +40,7 @@ create table cena
 (
     id         integer not null /*autoincrement needs PK*/,
     datum_od   TEXT    not null,
-    posiljalac TEXT    not null,
+    porucilac  TEXT    not null,
     artikal    TEXT    not null,
     mesto      TEXT    not null,
     cena       integer not null

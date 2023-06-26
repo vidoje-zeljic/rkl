@@ -214,7 +214,7 @@ function reloadWithQueryStringVars(currentUrl, queryStringVars) {
 
 function insert() {
     datumOd = document.getElementById("datum-od").value
-    posiljalac = document.getElementById("posiljalac").value
+    porucilac = document.getElementById("porucilac").value
     artikal = document.getElementById("artikal").value
     mesto = document.getElementById("mesto").value
     cena = document.getElementById("cena").value
@@ -229,7 +229,7 @@ function insert() {
 
     requestBody = {
         "datum-od": datumOd,
-        "posiljalac": posiljalac,
+        "porucilac": porucilac,
         "artikal": artikal,
         "mesto": mesto,
         "cena": cena
@@ -299,7 +299,6 @@ function createTablePrice(jsonData, sortBy) {
             tr.appendChild(td);
         });
         let th = document.createElement("th");
-        console.log(vals[0])
         th.innerHTML = `<button onclick=deletePrice(${vals[0]})> Delete </button>`
         tr.appendChild(th);
         table.appendChild(tr);

@@ -144,7 +144,7 @@ def create_price():
     if request.method == 'GET':
         return render_template('prices.html',
                                prices=db.pricesJson(),
-                               posiljaoci=db.posiljaoci(),
+                               porucioci=db.porucioci(),
                                artikli=db.artikli(),
                                mesta=db.mesta(),
                                )
