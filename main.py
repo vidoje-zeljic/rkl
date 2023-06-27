@@ -22,7 +22,6 @@ def verify_password(username, password):
 @app.route("/")
 @auth.login_required
 def index():
-    print(auth)
     return render_template('index.html', user=auth.current_user())
 
 
@@ -62,7 +61,6 @@ def reports():
     db_resoults = db.get_resources(limit, broj, neto_od, neto_do, posiljalac, porucilac, primalac, artikal, prevoznik,
                                    registracija, datum_od, datum_do)
 
-    print(db_resoults[3])
     if request.method == 'GET':
         return render_template('reports.html',
                                count=db_resoults[1],
@@ -143,7 +141,7 @@ def exports(file_name):
 def create_price():
     if request.method == 'GET':
         return render_template('prices.html',
-                               prices=db.pricesJson(),
+                               prices=db.prices_json(),
                                porucioci=db.porucioci(),
                                artikli=db.artikli(),
                                mesta=db.mesta(),
@@ -157,6 +155,26 @@ def create_price():
 @auth.login_required
 def delete_price(id):
     db.delete_price(id)
+    return "OK"
+
+
+@app.route("/payments", methods=["GET", "POST"])
+@auth.login_required
+def payments():
+    if request.method == 'GET':
+        return render_template('payments.html',
+                               payments=db.payments_json(),
+                               porucioci=db.porucioci(),
+                               )
+    if request.method == 'POST':
+        db.save_payments(request.json)
+        return "OK"
+
+
+@app.route("/payments/<id>", methods=["DELETE"])
+@auth.login_required
+def delete_payment(id):
+    db.delete_payment(id)
     return "OK"
 
 

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Placanja
+{% endblock %}
+
+{% block body_onload %}
+onload="createTablePayments({{payments}}, 'datum')"
+{% endblock %}
+
+{% block content %}
+<table style="margin-left: auto; margin-right: auto;">
+    <tr>
+        <td>
+            <label for="datum">Datum</label>
+            <input type="date" id="datum">
+        </td>
+        <td>
+            <label for="porucilac">Porucioci:&nbsp;</label>
+            <select id="porucilac" style="text-align: center;">
+                {% for e in porucioci: %}
+                <option value="{{e[0]}}">{{e[0]}}</option>
+                {% endfor %}
+            </select>
+        </td>
+        <td>
+            <label for="uplata">Uplata</label>
+            <input type="number" id="uplata">
+        </td>
+        <td>
+            <button onclick="insertPayment()">
+                Insert
+            </button>
+        </td>
+    </tr>
+</table>
+
+<div style="padding-top: 10px" id="container"></div>
+{% endblock %}
+
+{% block script %}
+<script src="{{url_for('static', filename='index.js')}}"></script>
+{% endblock %}

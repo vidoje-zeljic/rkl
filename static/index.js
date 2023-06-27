@@ -335,3 +335,111 @@ function deletePrice(id) {
         window.location.href = "/prices"
     })
 }
+
+function insertPayment() {
+    datum = document.getElementById("datum").value
+    porucilac = document.getElementById("porucilac").value
+    uplata = document.getElementById("uplata").value
+    if (datum == "") {
+        alert("Datum je obavezan")
+        return
+    }
+    if (uplata == "") {
+        alert("Uplata je obavezna")
+        return
+    }
+
+    requestBody = {
+        "datum": datum,
+        "porucilac": porucilac,
+        "uplata": uplata
+    }
+
+    fetch('payments', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody)
+    })
+        .then(data => {
+            window.location.href = 'payments'
+        })
+}
+
+
+function createTablePayments(jsonData, sortBy) {
+    if (jsonData.length == 0) {
+        let container = document.getElementById("container");
+        container.innerHTML = ''
+        return
+    }
+
+    if (lastSortedBy === sortBy) {
+        orderBy = -orderBy
+    } else {
+        orderBy = -1
+    }
+    lastSortedBy = sortBy
+
+    jsonData.sort(function (a, b) {
+        if (!isNaN(Number(a[sortBy]))) {
+            return orderBy > 0 ? parseInt(a[sortBy]) - parseInt(b[sortBy]) : parseInt(b[sortBy]) - parseInt(a[sortBy])
+        } else {
+            return orderBy > 0 ? ('' + a[sortBy]).localeCompare(b[sortBy]) : ('' + b[sortBy]).localeCompare(a[sortBy]);
+        }
+    });
+
+    let container = document.getElementById("container");
+    container.innerHTML = ''
+    let table = document.createElement("table");
+    table.style.marginLeft = "auto"
+    table.style.marginRight = "auto"
+    let cols = Object.keys(jsonData[0]);
+
+    let tr = document.createElement("tr");
+    cols.slice(1).forEach((item) => {
+        let th = document.createElement("th");
+        th.innerHTML = item + (item == sortBy ? (orderBy == 1 ? " &#8593;" : " &#8595;") : "")
+        th.onclick = function () {
+            createTablePrice(jsonData, item)
+        }
+        tr.appendChild(th);
+    });
+    table.append(tr);
+
+    jsonData.forEach((item) => {
+        let tr = document.createElement("tr");
+        let vals = Object.values(item);
+        vals.slice(1).forEach((elem) => {
+            let td = document.createElement("td");
+            td.innerText = elem;
+            tr.appendChild(td);
+        });
+        let th = document.createElement("th");
+        th.innerHTML = `<button onclick=confirmDeletePayment(${vals[0]})> Delete </button>`
+        tr.appendChild(th);
+        table.appendChild(tr);
+    });
+
+    container.appendChild(table);
+}
+
+
+function confirmDeletePayment(id) {
+    if (confirm('Delete?')) {
+        deletePayment(id)
+    } else {
+        return false;
+    }
+}
+
+
+function deletePayment(id) {
+    fetch('payments/' + id, {
+        method: 'DELETE',
+    }).then(() => {
+        window.location.href = "/payments"
+    })
+}

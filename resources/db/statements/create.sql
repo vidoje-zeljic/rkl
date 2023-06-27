@@ -46,3 +46,12 @@ create table cena
     cena       integer not null,
     PRIMARY KEY ("id" AUTOINCREMENT),
 );
+
+create table uplata
+(
+    id         integer not null /*autoincrement needs PK*/,
+    datum      TEXT    not null,
+    porucilac  TEXT    not null,
+    uplata     integer not null,
+    PRIMARY KEY ("id" AUTOINCREMENT)
+);

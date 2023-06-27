@@ -185,15 +185,22 @@ def delete_price(id):
     con.commit()
 
 
+def delete_payment(id):
+    cur.execute("""
+    DELETE FROM uplata
+    WHERE id = ?""", [id])
+    con.commit()
+
+
 def prices():
     return cur.execute("select * from cena").fetchall()
 
 
-def pricesJson():
+def prices_json():
     prices = cur.execute("select * from cena").fetchall()
-    pricesJson = []
+    prices_json = []
     for price in prices:
-        priceJson = {
+        price_json = {
             "id": price[0],
             "datum-od": price[1],
             "posiljalac": price[2],
@@ -201,5 +208,29 @@ def pricesJson():
             "mesto": price[4] if price[4] is not None else "",
             "cena": price[5],
         }
-        pricesJson.append(priceJson)
-    return pricesJson
+        prices_json.append(price_json)
+    return prices_json
+
+
+def payments_json():
+    payments = cur.execute("select * from uplata").fetchall()
+    payments_json = []
+    for payment in payments:
+        payments_json.append({
+            "id": payment[0],
+            "datum": payment[1],
+            "porucilac": payment[2],
+            "uplata": payment[3],
+        })
+    return payments_json
+
+
+def save_payments(payment):
+    cur.execute("""
+    INSERT INTO uplata(
+        'datum',
+        'porucilac',
+        'uplata'
+    )
+    VALUES (?, ?, ?)""", list(payment.values()))
+    con.commit()
