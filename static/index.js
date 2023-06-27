@@ -185,6 +185,14 @@ function export_file() {
         })
 }
 
+function confirmDeleteFile(file_name) {
+    if (confirm('Delete?')) {
+        deleteFile(file_name)
+    } else {
+        return false;
+    }
+}
+
 function deleteFile(file_name) {
     fetch('files/' + file_name, {
         method: 'DELETE',
@@ -302,12 +310,21 @@ function createTablePrice(jsonData, sortBy) {
             tr.appendChild(td);
         });
         let th = document.createElement("th");
-        th.innerHTML = `<button onclick=deletePrice(${vals[0]})> Delete </button>`
+        th.innerHTML = `<button onclick=confirmDeletePrice(${vals[0]})> Delete </button>`
         tr.appendChild(th);
         table.appendChild(tr);
     });
 
     container.appendChild(table);
+}
+
+
+function confirmDeletePrice(id) {
+    if (confirm('Delete?')) {
+        deletePrice(id)
+    } else {
+        return false;
+    }
 }
 
 

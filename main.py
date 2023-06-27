@@ -118,7 +118,7 @@ def files():
 @auth.login_required
 def file(file_name):
     if request.method == 'GET':
-        return send_file("./uploads/" + file_name, as_attachment=True)
+        return send_file("uploads/" + file_name, as_attachment=True)
 
     if request.method == 'DELETE':
         os.remove("uploads/" + file_name)
@@ -130,7 +130,7 @@ def file(file_name):
 @auth.login_required
 def exports(file_name):
     if request.method == 'GET':
-        return send_file("./exports/" + file_name, as_attachment=True)
+        return send_file("exports/" + file_name, as_attachment=True)
 
     if request.method == 'DELETE':
         os.remove("exports/" + file_name)
