@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Finansije
+{% endblock %}
+
+{% block body_onload %}
+onload="createTableFinance({{finance}}, 'porucilac')"
+{% endblock %}
+
+{% block content %}
+<div style="padding-top: 10px" id="container"></div>
+{% endblock %}
+
+{% block script %}
+<script src="{{url_for('static', filename='index.js')}}"></script>
+{% endblock %}

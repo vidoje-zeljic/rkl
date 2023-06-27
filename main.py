@@ -178,6 +178,12 @@ def delete_payment(id):
     return "OK"
 
 
+@app.route("/finance")
+@auth.login_required
+def finance():
+    return render_template('finance.html', finance=db.finance_json())
+
+
 def get_files():
     uploads = os.fsencode("./uploads")
     files = []

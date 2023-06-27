@@ -206,7 +206,7 @@ def prices_json():
             "posiljalac": price[2],
             "artikal": price[3],
             "mesto": price[4] if price[4] is not None else "",
-            "cena": price[5],
+            "cena": db_util.format_number(price[5]),
         }
         prices_json.append(price_json)
     return prices_json
@@ -220,7 +220,7 @@ def payments_json():
             "id": payment[0],
             "datum": payment[1],
             "porucilac": payment[2],
-            "uplata": payment[3],
+            "uplata": db_util.format_number(payment[3]),
         })
     return payments_json
 
@@ -234,3 +234,39 @@ def save_payments(payment):
     )
     VALUES (?, ?, ?)""", list(payment.values()))
     con.commit()
+
+
+def finance_json():
+    sql = """
+select t1.porucilac,
+       ROUND(COALESCE(cena, 0), 0)                    as cena,
+       ROUND(COALESCE(uplata, 0))                     as uplata,
+       ROUND(COALESCE(cena, 0) - COALESCE(uplata, 0)) as dugovanje
+from (SELECT porucilac,
+             sum((select c.cena * i.neto * 0.0012
+                  from cena c
+                  where c.datum_od <= i.datum
+                    and c.porucilac = i.porucilac
+                    and c.artikal = i.artikal
+                    and ((c.mesto is NULL and i.mesto is NULL) OR c.mesto = i.mesto)
+                  order by c.datum_od desc
+                  limit 1)) AS cena
+      FROM izvestaj i
+      group by porucilac) t1
+         left join
+     (SELECT porucilac, sum(uplata) AS uplata
+      FROM uplata
+      group by porucilac) t2
+     on t1.porucilac = t2.porucilac;
+    """
+    finance = cur.execute(sql).fetchall()
+    print(finance)
+    finance_json = []
+    for f in finance:
+        finance_json.append({
+            "porucilac": f[0],
+            "cena": db_util.format_number(f[1]),
+            "uplata": db_util.format_number(f[2]),
+            "dugovanje": db_util.format_number(f[3]),
+        })
+    return finance_json
